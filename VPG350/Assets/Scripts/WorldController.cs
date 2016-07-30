@@ -3,6 +3,9 @@ using System.Collections;
 
 public class WorldController : MonoBehaviour {
 
+    public int MazeSizeX = 20;
+    public int MazeSizeY = 20;
+
     public MazeGenerationController MazeGenerator;
 
 	// Use this for initialization
@@ -11,7 +14,7 @@ public class WorldController : MonoBehaviour {
         if (MazeGenerator == null)
             MazeGenerator = new MazeGenerationController();
 
-        MazeGenerator.GenerateMaze(new Point(6, 6), MazeFinished);
+        MazeGenerator.GenerateMaze(new Point(MazeSizeX, MazeSizeY), MazeFinished);
 	}
 
     void MazeFinished()
@@ -21,6 +24,6 @@ public class WorldController : MonoBehaviour {
 
     void Update()
     {
-        MazeGenerator.Update();
+
     }
 }
