@@ -47,6 +47,18 @@ public class BasicFirstPersonController : MonoBehaviour {
         interacting = false;
     }
 	
+    public void lockPlayerControls()
+    {
+        canMove = false;
+        mouseLook.SetCursorLock(false);
+    }
+
+    public void unlockPlayerControls()
+    {
+        canMove = true;
+        mouseLook.SetCursorLock(true);
+    }
+
 	// Update is called once per frame
 	void Update () {
 

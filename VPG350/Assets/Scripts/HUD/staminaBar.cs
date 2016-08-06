@@ -23,16 +23,24 @@ public class staminaBar : MonoBehaviour {
     //for using the game object to rescale
     public GameObject barMod;
 
+    //pauseIn pausedGame;
+
+    public bool barIsActive;
+    pauseIn checkForPause;
+    
+
 	// Use this for initialization
 	void Start ()
     {
-        staRegen = false;
-       currentStamina  = maxStamina; 
+       staRegen = false;
+       currentStamina  = maxStamina;
+       checkForPause= FindObjectOfType<pauseIn>();
     }
 
     // Update is called once per frame
     void Update()
     {
+
         //converts current stamina into a 0 to 1 range or numbers so that the can be used to scale the Stamina bar
         calc_sta = currentStamina / maxStamina;
         //call setStaBar and places the calculations on X
@@ -76,11 +84,12 @@ public class staminaBar : MonoBehaviour {
             {
                 recDelay = 0;
             }
-        }
+        }    
     }
-
     //takes the calculated state of the green stamina bar and put it on the X scale(stBar)
-    public void setStaBar(float stBar){
-            barMod.transform.localScale= new Vector3(stBar, barMod.transform.localScale.y, barMod.transform.localScale.z);
-        }
+    public void setStaBar(float stBar)
+    {
+        barMod.transform.localScale= new Vector3(stBar, barMod.transform.localScale.y, barMod.transform.localScale.z);
+    }
+    
 }

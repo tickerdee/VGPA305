@@ -1,18 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
-//using UnityEngine.UI;
-using UnityStandardAssets.Characters.FirstPerson;
+using UnityEngine.UI;
+//using UnityStandardAssets.Characters.FirstPerson;
 
 public class pauseIn : MonoBehaviour {
 
     public GameObject pauseGame, resumeGame;
     public GameObject menuToggle;
 
-	RigidbodyFirstPersonController person;
+    bool isPaused;
+
+    staminaBar pauseStambar;
+
+    //RigidbodyFirstPersonController person;
+    BasicFirstPersonController person;
 
     public void onResumeGame()
     {
-        Time.timeScale = 1;
         resumeGame.SetActive(true);
     }
 
@@ -20,40 +24,38 @@ public class pauseIn : MonoBehaviour {
     {
         menuToggle.SetActive(false);
 
-		person = FindObjectOfType<RigidbodyFirstPersonController> ();
+        //person = FindObjectOfType<RigidbodyFirstPersonController> ();
+        person = FindObjectOfType<BasicFirstPersonController>();
     }
 
 
     void Update()
     {
 		
-        if (Input.GetKeyDown(KeyCode.P))//when P is pressed
+        if (Input.GetKeyDown(KeyCode.P)|| Input.GetKeyDown(KeyCode.Escape))//when P or Esc is pressed
         {
 			if (person == null)
-				person = FindObjectOfType<RigidbodyFirstPersonController> ();
-			
+				//person = FindObjectOfType<RigidbodyFirstPersonController> ();
+                person = FindObjectOfType<BasicFirstPersonController>();
+
             //Pauses the game
-            if (Time.timeScale == 1)//if the game is running
+            if (!isPaused)//if the game is running
             {
                 //start_Button.gameObject.SetActive(true);//disabled - toggles visibily of the object
-                Time.timeScale = 0;
                 menuToggle.SetActive(true);
                 resumeGame.SetActive(true);
-                //Cursor.visible = true;
-                //Cursor.active = true;
-				person.mouseLook.SetCursorLock(false);
+
+                person.lockPlayerControls();
+                isPaused = true;
+                //pauseStambar.;
             }
-            //Resumes the Game
-            else if (Time.timeScale == 0 || resumeGame)//if the game is not running
+            //Resumes the Game after Pause key is pressed again
+            else if (isPaused)//if the game is not running
             {
                 menuToggle.SetActive(false);//enabled - toggles visibility of the object
-                Time.timeScale = 1;
-                // inPause = false;
-               // menuToggle; 
-				person.mouseLook.SetCursorLock(true);
-                
+                person.unlockPlayerControls();
+                isPaused = false;
             }
-
         }
     }
 }

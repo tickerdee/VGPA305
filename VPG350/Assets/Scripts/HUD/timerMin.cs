@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 
+
 public class timerMin : MonoBehaviour {
 
     public Text number_text;
@@ -9,7 +10,6 @@ public class timerMin : MonoBehaviour {
 
     void Start ()
     {
-        //InvokeRepeating("timerOnMin", 1.0f, 60.0f);
     }
 
 
