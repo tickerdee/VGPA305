@@ -16,7 +16,7 @@ public class BasicFirstPersonController : MonoBehaviour {
 
     float shiftModifier;
 
-    bool canMove, interacting;//Not implemented
+    bool canMove;
 
     float timeMoving;
 
@@ -44,7 +44,6 @@ public class BasicFirstPersonController : MonoBehaviour {
         
 
         canMove = true;
-        interacting = false;
     }
 	
     public void lockPlayerControls()
@@ -134,13 +133,9 @@ public class BasicFirstPersonController : MonoBehaviour {
 
             rg.AddForce(movement);
             speed = movement.magnitude;
-
-            interacting = false;
         }
         else
         {
-
-            interacting = true;
             rg.velocity = Vector3.zero;
 
         }
@@ -151,9 +146,6 @@ public class BasicFirstPersonController : MonoBehaviour {
     {
         //avoids the mouse looking if the game is effectively paused
         if (Mathf.Abs(Time.timeScale) < float.Epsilon) return;
-
-        // get the rotation before it's changed
-        float oldYRotation = transform.eulerAngles.y;
 
         if (useMouseLook)
         {

@@ -8,7 +8,7 @@ public class CustomButton : Button {
 	public Action OnClickCall;
 
 	// Use this for initialization
-	void Start () {
+	protected override void Start () {
 		onClick.AddListener (ONCLICK);
 	}
 

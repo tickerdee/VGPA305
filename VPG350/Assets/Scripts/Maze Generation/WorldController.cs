@@ -9,6 +9,8 @@ public class WorldController : MonoBehaviour {
     public MazeGenerationController MazeGenerator;
     public GameObject MazeHolder;
 
+    public GameObject Exit;
+
     public bool randomizeEntranceAndExit;
 
     public float mazeRunModifier, OpenWallModifier;
@@ -29,6 +31,9 @@ public class WorldController : MonoBehaviour {
         {
             for(int X=0; X < MazeGenerator.MazeSize.x; ++X)
             {
+                if (MazeGenerator.MAZE[X, Y].Empty)
+                    continue;
+
                 string path = @"Enviroment/Prefabs/Maze Rooms/";
                 string openDesc = "";
 
@@ -57,7 +62,9 @@ public class WorldController : MonoBehaviour {
                 SpawnAndPlaceMazeCell(Resources.Load(openDesc), X, Y);
 
                 if (MazeGenerator.MAZE[X, Y].IsExit)
-                    SpawnEndTargetObject(Resources.Load("Enviroment/Prefabs/End Object"), X, Y);
+                {
+                    Exit = SpawnEndTargetObject(Resources.Load("Enviroment/Prefabs/End Object"), X, Y);
+                }
             }
         }//End for maze y
 
@@ -74,11 +81,13 @@ public class WorldController : MonoBehaviour {
         ((GameObject)MazePrefab).transform.parent = MazeHolder.transform;
     }
 
-    void SpawnEndTargetObject(Object EndObject, int MazePositionx, int MazePositiony)
+    GameObject SpawnEndTargetObject(Object EndObject, int MazePositionx, int MazePositiony)
     {
         EndObject = (GameObject)Instantiate(EndObject, new Vector3(MazePositionx * 3, 0, MazePositiony * 3), Quaternion.identity);
 
         ((GameObject)EndObject).transform.parent = MazeHolder.transform;
+
+        return ((GameObject)EndObject);
     }
 
     Vector3 GetWorldPositionForCell(Point MazePosition)

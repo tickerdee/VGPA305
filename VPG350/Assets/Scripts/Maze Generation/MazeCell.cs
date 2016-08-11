@@ -16,7 +16,7 @@ public class MazeCell {
 
     public Point PositionInMaze;
 
-    public bool ISNULL, Initialized, Unchangeable;
+    public bool ISNULL, Initialized, Unchangeable, Empty;
 
     public bool IsEntrance, IsExit;
 
@@ -26,6 +26,7 @@ public class MazeCell {
     {
         IsEntrance = IsExit = Initialized = Unchangeable = false;
         ISNULL = true;
+        Empty = false;
         PositionInMaze = new Point();
         OpenUp = OpenRight = OpenDown = OpenLeft = WallType.notset;
     }
@@ -89,6 +90,15 @@ public class MazeCell {
 
         if (PositionInMaze.x - 1 == connectTo.x)
             OpenLeft = WallType.open;
+    }
+
+    public void EmptyThisCell()
+    {
+        Empty = true;
+        OpenUp = WallType.wall;
+        OpenRight = WallType.wall;
+        OpenDown = WallType.wall;
+        OpenLeft = WallType.wall;
     }
 
     public Point GetUp() { return new Point(PositionInMaze.x, PositionInMaze.y + 1); }

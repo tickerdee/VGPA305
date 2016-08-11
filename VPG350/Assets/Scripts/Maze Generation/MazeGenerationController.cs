@@ -123,7 +123,43 @@ public class MazeGenerationController : MonoBehaviour {
         {
             DoMazeWalkingStep();
         }
+        
+        bool foundADeadEnd = true;
+        while(foundADeadEnd)
+        {
+            foundADeadEnd = false;
 
+            for (int y=0; y < MazeSize.y; ++y)
+            {
+                for(int x=0; x < MazeSize.x; ++x)
+                {
+                    if(!MAZE[x, y].Empty && MAZE[x, y].IsDeadEnd() && !MAZE[x, y].Unchangeable && !MAZE[x, y].IsExit)
+                    {
+                        switch(MAZE[x, y].GetMazeCellEntranceValue())
+                        {
+                            case 1:
+                                MAZE[x, y+1].OpenDown = MazeCell.WallType.wall;
+                                break;
+                            case 2:
+                                MAZE[x+1, y].OpenLeft = MazeCell.WallType.wall;
+                                break;
+                            case 4:
+                                MAZE[x, y-1].OpenUp = MazeCell.WallType.wall;
+                                break;
+                            case 8:
+                                MAZE[x-1, y].OpenRight = MazeCell.WallType.wall;
+                                break;
+                        }
+
+                        MAZE[x, y].EmptyThisCell();
+                        
+                        foundADeadEnd = true;
+                    }
+                }
+            }
+
+        }
+        
         MazeSolved = false;
         CompletedCallback();
     }
