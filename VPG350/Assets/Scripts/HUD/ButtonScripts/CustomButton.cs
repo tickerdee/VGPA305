@@ -6,23 +6,25 @@ using UnityEngine.UI;
 public class CustomButton : Button {
 
 	public Action OnClickCall;
+    BasicFirstPersonController person;
 
-	// Use this for initialization
-	protected override void Start () {
-		onClick.AddListener (ONCLICK);
-	}
+    // Use this for initialization
+    protected override void Start () {
+        onClick.AddListener(ONCLICK);
+        person = FindObjectOfType<BasicFirstPersonController>();
+    }
 
 	void ONCLICK(){
 		OnClickCall ();
 
-        if(GameObject.Find("UI").GetComponent<pauseIn>().isPaused)
-        {
-            GameObject.Find("UI").GetComponent<pauseIn>().isPaused = false;
-        }
 	}
 
 	// Update is called once per frame
 	void Update () {
 	
+        if(GameObject.Find("UI").GetComponent<pauseIn>().isPaused)
+        {
+            GameObject.Find("UI").GetComponent<pauseIn>().isPaused = false;
+        }
 	}
 }
