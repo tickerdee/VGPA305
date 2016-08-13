@@ -70,7 +70,11 @@ public class WorldController : MonoBehaviour {
 
         Vector3 playerSpawnLoc = GetWorldPositionForCell(new Point(MazeGenerator.MazeEntrance.x, MazeGenerator.MazeEntrance.y)) + new Vector3(0,1,0);
 
+		Vector3 guardSpawnLoc = GetWorldPositionForCell(new Point(MazeGenerator.MazeEntrance.x, MazeGenerator.MazeEntrance.y)) + new Vector3(0,0.5f,0);
+
         FindObjectOfType<BasicFirstPersonController>().transform.position = playerSpawnLoc;
+
+		FindObjectOfType<GuardAI>().transform.position = guardSpawnLoc;
 
     }//End Maze Finished
 
