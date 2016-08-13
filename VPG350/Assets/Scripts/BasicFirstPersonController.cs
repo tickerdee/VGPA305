@@ -16,6 +16,8 @@ public class BasicFirstPersonController : MonoBehaviour {
 
     float shiftModifier;
 
+    public bool canRun;
+
     bool canMove;
 
     float timeMoving;
@@ -72,8 +74,16 @@ public class BasicFirstPersonController : MonoBehaviour {
 
             if (Input.GetKey(KeyCode.LeftShift))
             {
-                timeMoving += shiftRunRateModifer;
-                shiftModifier = shiftRunSpeedModifer;
+                if (GameObject.Find("UI").GetComponent<staminaBar>().currentStamina > 0)
+                {
+                    timeMoving += shiftRunRateModifer;
+                    shiftModifier = shiftRunSpeedModifer;
+                    canRun=true;
+                }
+                else
+                {
+                    canRun = false;
+                }
             }
             else
             {
