@@ -9,7 +9,7 @@ public class WorldController : MonoBehaviour {
     public MazeGenerationController MazeGenerator;
     public GameObject MazeHolder;
 
-    public GameObject Exit;
+    public GameObject Exit, Entrance;
 
     public bool randomizeEntranceAndExit;
 
@@ -17,11 +17,17 @@ public class WorldController : MonoBehaviour {
 
     public bool CalledMazeGeneration;
 
+	public WorldEvents worldEvents;
+
 	// Use this for initialization
 	void Start () {
 
         if (MazeGenerator == null)
             MazeGenerator = gameObject.AddComponent<MazeGenerationController>();
+
+		worldEvents = GetComponent<WorldEvents>();
+
+		WorldObjectReference.GetInstance().AddObject(this);
 	}
 
     void MazeFinished()
@@ -59,30 +65,41 @@ public class WorldController : MonoBehaviour {
                     continue;
                 }
 
-                SpawnAndPlaceMazeCell(Resources.Load(openDesc), X, Y);
+                GameObject Cell = SpawnAndPlaceMazeCell(Resources.Load(openDesc), X, Y);
 
                 if (MazeGenerator.MAZE[X, Y].IsExit)
                 {
                     Exit = SpawnEndTargetObject(Resources.Load("Enviroment/Prefabs/End Object"), X, Y);
-                }
+				}else if(MazeGenerator.MAZE[X, Y].IsEntrance){
+					Entrance = Cell;
+				}
             }
         }//End for maze y
 
-        Vector3 playerSpawnLoc = GetWorldPositionForCell(new Point(MazeGenerator.MazeEntrance.x, MazeGenerator.MazeEntrance.y)) + new Vector3(0,1,0);
+		if(Entrance != null){
+			Vector3 playerSpawnLoc = Entrance.transform.position + new Vector3(0,1,0);
+			FindObjectOfType<BasicFirstPersonController>().transform.position = playerSpawnLoc;
+		}
 
-		Vector3 guardSpawnLoc = GetWorldPositionForCell(new Point(MazeGenerator.MazeEntrance.x, MazeGenerator.MazeEntrance.y)) + new Vector3(0,0.5f,0);
+		if(Exit != null){
+			Vector3 guardSpawnLoc = Exit.transform.position + new Vector3(0,0.5f,0);
 
-        FindObjectOfType<BasicFirstPersonController>().transform.position = playerSpawnLoc;
+			var tempGaurd = FindObjectOfType<GuardAI>();
+			if(tempGaurd != null){
+				tempGaurd.transform.position = guardSpawnLoc;
+			}
+		}
 
-		FindObjectOfType<GuardAI>().transform.position = guardSpawnLoc;
-
+		worldEvents.CallMazeFinished();
     }//End Maze Finished
 
-    void SpawnAndPlaceMazeCell(Object MazePrefab, int MazePositionx, int MazePositiony)
+    GameObject SpawnAndPlaceMazeCell(Object MazePrefab, int MazePositionx, int MazePositiony)
     {
-        MazePrefab = (GameObject)Instantiate(MazePrefab, new Vector3(MazePositionx * 3, 0, MazePositiony * 3), Quaternion.identity);
+        GameObject MazeObject = (GameObject)Instantiate(MazePrefab, new Vector3(MazePositionx * 3, 0, MazePositiony * 3), Quaternion.identity);
 
-        ((GameObject)MazePrefab).transform.parent = MazeHolder.transform;
+		MazeObject.transform.parent = MazeHolder.transform;
+
+		return MazeObject;
     }
 
     GameObject SpawnEndTargetObject(Object EndObject, int MazePositionx, int MazePositiony)

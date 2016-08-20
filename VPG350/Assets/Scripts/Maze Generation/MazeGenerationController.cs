@@ -321,9 +321,6 @@ public class MazeGenerationController : MonoBehaviour {
     void KnockdownAWall(ref MazeCell Cell)
     {
 
-        int cellX = Cell.PositionInMaze.x;
-        int cellY = Cell.PositionInMaze.y;
-
         List<int> availableWalls = new List<int>();
 
         if (CellExists(Cell.GetUp()) && Cell.OpenUp != MazeCell.WallType.open)

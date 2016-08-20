@@ -22,6 +22,8 @@ public class BasicFirstPersonController : MonoBehaviour {
 
     float timeMoving;
 
+	public float currentStamina;
+
     // Use this for initialization
     void Start () {
 
@@ -43,11 +45,10 @@ public class BasicFirstPersonController : MonoBehaviour {
         {
             Debug.Log("Basic First Person Controller has no camera");
         }
-        
 
         canMove = true;
     }
-	
+
     public void lockPlayerControls()
     {
         canMove = false;
@@ -73,17 +74,17 @@ public class BasicFirstPersonController : MonoBehaviour {
             rg.velocity = Vector3.zero;
 
             if (Input.GetKey(KeyCode.LeftShift))
-            {
-                if (GameObject.Find("UI").GetComponent<staminaBar>().currentStamina > 0)
-                {
+			{
+                //if (GameObject.Find("UI").GetComponent<staminaBar>().currentStamina > 0)
+                //{
                     timeMoving += shiftRunRateModifer;
                     shiftModifier = shiftRunSpeedModifer;
                     canRun=true;
-                }
-                else
-                {
-                    canRun = false;
-                }
+                //}
+                //else
+                //{
+                    //canRun = false;
+                //}
             }
             else
             {
