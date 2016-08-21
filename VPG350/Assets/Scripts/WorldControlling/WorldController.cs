@@ -27,7 +27,12 @@ public class WorldController : MonoBehaviour {
 
 		worldEvents = GetComponent<WorldEvents>();
 
+		//Use our WorldObjectReferncer to register our WordlController
 		WorldObjectReference.GetInstance().AddObject(this);
+
+		if(MazeHolder == null){
+			Debug.Log("World Controller has no reference to a MazeHolder. No maze Generated");
+		}
 	}
 
     void MazeFinished()
@@ -37,8 +42,10 @@ public class WorldController : MonoBehaviour {
         {
             for(int X=0; X < MazeGenerator.MazeSize.x; ++X)
             {
-                if (MazeGenerator.MAZE[X, Y].Empty)
+				//If the Cell is marked empty then just continue on to next loop
+				if (MazeGenerator.MAZE[X, Y].Empty){
                     continue;
+				}
 
                 string path = @"Enviroment/Prefabs/Maze Rooms/";
                 string openDesc = "";
@@ -90,7 +97,8 @@ public class WorldController : MonoBehaviour {
 			}
 		}
 
-		worldEvents.CallMazeFinished();
+		if(worldEvents != null)
+			worldEvents.CallMazeFinished();
     }//End Maze Finished
 
     GameObject SpawnAndPlaceMazeCell(Object MazePrefab, int MazePositionx, int MazePositiony)
@@ -126,7 +134,7 @@ public class WorldController : MonoBehaviour {
 
     void Update()
     {
-        if (!CalledMazeGeneration)
+		if (!CalledMazeGeneration && MazeHolder != null)
         {
             DeleteAllChildren(MazeHolder.transform);
             MazeGenerator.MAZE = null;
