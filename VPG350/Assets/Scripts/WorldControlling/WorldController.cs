@@ -7,6 +7,7 @@ public class WorldController : MonoBehaviour {
     public int MazeSizeY = 20;
 
     public MazeGenerationController MazeGenerator;
+	public NodeMap nodeMap;
     public GameObject MazeHolder;
 
     public GameObject Exit, Entrance;
@@ -96,6 +97,9 @@ public class WorldController : MonoBehaviour {
 				tempGaurd.transform.position = guardSpawnLoc;
 			}
 		}
+
+		nodeMap = new NodeMap();
+		nodeMap.GenerateNodeMap(MazeGenerator.MAZE);
 
 		if(worldEvents != null)
 			worldEvents.CallMazeFinished();

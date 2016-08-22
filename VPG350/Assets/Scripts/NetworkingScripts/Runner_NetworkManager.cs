@@ -28,7 +28,8 @@ public class Runner_NetworkManager : NetworkManager {
 
 	//SERVER---------
 	public void Host(int port){
-		NetworkConnectionError errorNet = Network.InitializeServer(6, port, false);
+		//NetworkConnectionError errorNet = Network.InitializeServer(6, port, false);
+		Network.InitializeServer(6, port, false);
 	}
 
 	override public void OnServerConnect(NetworkConnection conn){
@@ -68,7 +69,8 @@ public class Runner_NetworkManager : NetworkManager {
 	}
 
 	public void Connect(string IP, int port){
-		NetworkConnectionError errorNet = Network.Connect(IP, port);
+		//NetworkConnectionError errorNet = Network.Connect(IP, port);
+		Network.Connect(IP, port);
 	}
 
 	void OnConnectedToServer() {

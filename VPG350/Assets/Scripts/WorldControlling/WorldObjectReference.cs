@@ -5,6 +5,18 @@ using System;
 
 public class WorldObjectReference{
 
+	//To use this
+	//IMPORTANT only add objects that will NOT: get destroyed, change refernce i.e. set = to something (This changes the pointer linkage)
+		/*
+		 * ---To add an object---
+		 * Lets say you have an object of type MyObjectType and its name is MyObject i.e. MyObjectType MyObject;
+		 * You would write: WorldObjectReferencer.GetInstance().AddObject<MyObjectType>(MyOjbect);
+		 * 
+		 * ---To get an object---
+		 * Lets say you KNOW an object of type MyObjectType should have already been or will be added.
+		 * You would write: MyObjectType foundObject = WorldObjectReferencer.GetInstance().GetObject<MyObjectType>();
+		 */
+
 	//Singleton pattern this bitch
 	static WorldObjectReference instance;
 
@@ -35,6 +47,9 @@ public class WorldObjectReference{
 		//Possibly cleanup old references (nulled) here
 	public T GetObject<T>(){
 
+		if(Objects == null)
+			return default(T);
+
 		foreach(System.Object tempObj in Objects){
 
 			if(tempObj != null){
@@ -48,4 +63,4 @@ public class WorldObjectReference{
 
 		return default(T);
 	}
-}
+}//End Class

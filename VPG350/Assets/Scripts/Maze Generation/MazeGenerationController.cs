@@ -42,11 +42,6 @@ public class MazeGenerationController : MonoBehaviour {
 
     Action CompletedCallback;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-
     //Main outside call
 	public void GenerateMaze(Point Size, bool randomiseEntranceAndExit, Action CompletedCallback){
 
@@ -124,6 +119,7 @@ public class MazeGenerationController : MonoBehaviour {
             DoMazeWalkingStep();
         }
         
+		//Remove all dead ends
         bool foundADeadEnd = true;
         while(foundADeadEnd)
         {
@@ -157,9 +153,8 @@ public class MazeGenerationController : MonoBehaviour {
                     }
                 }
             }
+        }//End While deadends
 
-        }
-        
         MazeSolved = false;
         CompletedCallback();
     }
@@ -202,13 +197,9 @@ public class MazeGenerationController : MonoBehaviour {
                 PrintOutMaze();
                 MazeSolved = true;
             }
-            
 
             return;
-
         }//End if CurrentWalked is deadEnd
-
-
     }
 
     MazeCell FindANewPathStart()

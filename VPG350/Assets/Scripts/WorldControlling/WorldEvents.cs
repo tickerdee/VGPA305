@@ -6,6 +6,17 @@ public class WorldEvents : MonoBehaviour {
 	//A static referenceable actor
 		//So we can globally subscribe and call events across our game
 
+	//To use this
+		/*
+		 * Lets say you have a method AnyMethod(){}
+		 * Lets also say you want to listen for event Event_MazeFinished
+		 *  
+		 * In the construction of your object (or whenever you need to start listening to your event)
+		 * WorldEvents.Event_MazeFinished += AnyMethod;
+		 * 
+		 * done. Multiple additions of the same object method to one event untested
+		 */
+
 	public static event MazeFinished Event_MazeFinished;
 	public static event PreBeginGame Event_PreBeginGame;
 	public static event BeginGame Event_BeginGame;
@@ -13,6 +24,9 @@ public class WorldEvents : MonoBehaviour {
 	public static event BeginGame Event_PlayerLeft;
 	public static event EndGame Event_EndGame;
 
+	/// <summary>
+	/// Occurs when event PrintToScreen. Params (string Message)
+	/// </summary>
 	public static event PrintToScreen Event_PrintToScreen;
 
 	public delegate void MazeFinished();
