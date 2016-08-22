@@ -20,6 +20,10 @@ public class WorldController : MonoBehaviour {
 
 	public WorldEvents worldEvents;
 
+	public GameObject PlayerPrefab;
+	public Vector3 DefaultLocation;
+	public BasicFirstPersonController player;
+
 	// Use this for initialization
 	void Start () {
 
@@ -33,6 +37,11 @@ public class WorldController : MonoBehaviour {
 
 		if(MazeHolder == null){
 			Debug.Log("World Controller has no reference to a MazeHolder. No maze Generated");
+		}
+
+		//If we don't have a player spawn one
+		if(PlayerPrefab != null && player == null){
+			player = ((GameObject)Instantiate(PlayerPrefab, DefaultLocation, Quaternion.identity)).GetComponent<BasicFirstPersonController>();
 		}
 	}
 
@@ -86,7 +95,10 @@ public class WorldController : MonoBehaviour {
 
 		if(Entrance != null){
 			Vector3 playerSpawnLoc = Entrance.transform.position + new Vector3(0,1,0);
-			FindObjectOfType<BasicFirstPersonController>().transform.position = playerSpawnLoc;
+
+			if(player != null){
+				player.transform.position = playerSpawnLoc;
+			}
 		}
 
 		if(Exit != null){

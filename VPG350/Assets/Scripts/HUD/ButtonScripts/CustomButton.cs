@@ -14,15 +14,5 @@ public class CustomButton : Button {
 
 	void ONCLICK(){
 		OnClickCall ();
-
-	}
-
-	// Update is called once per frame
-	void Update () {
-	
-        if(GameObject.Find("UI").GetComponent<pauseIn>().isPaused)
-        {
-            GameObject.Find("UI").GetComponent<pauseIn>().isPaused = false;
-        }
 	}
 }

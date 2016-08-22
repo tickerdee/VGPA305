@@ -29,8 +29,8 @@ public class staminaBar : MonoBehaviour {
     //pauseIn pausedGame;
 
     public bool barIsActive;
-    private pauseIn checkForPause;
     
+	public InGameUIController UIController;
 
 	// Use this for initialization
 	void Start ()
@@ -42,15 +42,17 @@ public class staminaBar : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if(!gameObject.GetComponent<pauseIn>().isPaused)//do not use .Find("nameOfObject") if both scripts are already in the same object
-        {
-            runEnabled = true;
-            stamRegenFunc();
-        }
-        else if (gameObject.GetComponent<pauseIn>().isPaused)//returns nothing, stamina bar no longer works when paused
-        {
-            runEnabled = false;
-        }
+		if(UIController !=null){
+			if(!UIController.isPaused)//do not use .Find("nameOfObject") if both scripts are already in the same object
+	        {
+	            runEnabled = true;
+	            stamRegenFunc();
+	        }
+			else if (UIController.isPaused)//returns nothing, stamina bar no longer works when paused
+	        {
+	            runEnabled = false;
+	        }
+		}
     }
 
     public void stamRegenFunc()
