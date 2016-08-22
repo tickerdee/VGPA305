@@ -42,6 +42,9 @@ public class WorldController : MonoBehaviour {
 		//If we don't have a player spawn one
 		if(PlayerPrefab != null && player == null){
 			player = ((GameObject)Instantiate(PlayerPrefab, DefaultLocation, Quaternion.identity)).GetComponent<BasicFirstPersonController>();
+		}else{
+			//else if all else fails try to find the object in the scene
+			player = FindObjectOfType<BasicFirstPersonController>();
 		}
 	}
 
