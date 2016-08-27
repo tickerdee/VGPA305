@@ -22,7 +22,7 @@ public class WorldController : MonoBehaviour {
 
 	public GameObject PlayerPrefab;
 	public Vector3 DefaultLocation;
-	public BasicFirstPersonController player;
+	public CharController player;
 
 	// Use this for initialization
 	void Start () {
@@ -41,10 +41,11 @@ public class WorldController : MonoBehaviour {
 
 		//If we don't have a player spawn one
 		if(PlayerPrefab != null && player == null){
-			player = ((GameObject)Instantiate(PlayerPrefab, DefaultLocation, Quaternion.identity)).GetComponent<BasicFirstPersonController>();
+			player = ((GameObject)Instantiate(PlayerPrefab, DefaultLocation, Quaternion.identity)).GetComponent<CharController>();
+			Debug.Log ("Found Prefab = true");
 		}else{
 			//else if all else fails try to find the object in the scene
-			player = FindObjectOfType<BasicFirstPersonController>();
+			player = FindObjectOfType<CharController>();
 		}
 	}
 
