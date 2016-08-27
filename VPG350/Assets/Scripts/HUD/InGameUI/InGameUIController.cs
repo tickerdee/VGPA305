@@ -49,7 +49,7 @@ public class InGameUIController : MonoBehaviour {
     public void quitToMain()
     {
         //PauseIn.
-        UnityEngine.SceneManagement.SceneManager.LoadScene(1);//Scene 1 is main menu
+        UnityEngine.SceneManagement.SceneManager.LoadScene(1);//Scene 1 is main menu. Scene 2 is the game
     }
 
 	// Update is called once per frame

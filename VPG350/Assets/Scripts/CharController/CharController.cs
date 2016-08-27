@@ -159,7 +159,7 @@ public class CharController : MonoBehaviour {
         Controller = GetComponent<CharacterController>();
         moveDirection = Vector3.zero;
 
-		if (canMove == true) {
+		//if (canMove == true) {
 			
 			if (Input.GetKey (KeyCode.Space)) {
 				AnimRunTime = AnimState.jump;
@@ -213,7 +213,7 @@ public class CharController : MonoBehaviour {
 				moveDirection.y = jumpSpeed;
 				jumpTimer = 0;
 			}
-		}
+		//}
 
 
 
@@ -267,14 +267,15 @@ public class CharController : MonoBehaviour {
     // Update is called once per frame
     void Update() {
 
-    
 
-        Control();
-		RotateView();
+        if (canMove)
+        {
+            Control();
+            RotateView();
 
-        // Apply gravity
-        moveDirection.y -= Gravity * Time.deltaTime;
-
+            // Apply gravity
+            moveDirection.y -= Gravity * Time.deltaTime;
+        }
     }
 
 }
