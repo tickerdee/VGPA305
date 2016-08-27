@@ -63,4 +63,15 @@ public class WorldObjectReference{
 
 		return default(T);
 	}
+
+	public void Destroy(){
+
+		Debug.Log("World Object referencer cleaned up");
+
+		while(Objects.Count > 0){
+			Objects.RemoveAt(Objects.Count - 1);
+		}
+
+		instance = null;
+	}
 }//End Class

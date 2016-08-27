@@ -163,4 +163,8 @@ public class WorldController : MonoBehaviour {
             CalledMazeGeneration = true;
         }
     }
+
+	void OnApplicationQuit(){
+		WorldObjectReference.GetInstance().Destroy();
+	}
 }
