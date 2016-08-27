@@ -98,7 +98,7 @@ public class WorldController : MonoBehaviour {
         }//End for maze y
 
 		if(Entrance != null){
-			Vector3 playerSpawnLoc = Entrance.transform.position + new Vector3(0,1,0);
+			Vector3 playerSpawnLoc = Entrance.transform.position + new Vector3(0,player.transform.localScale.y + 0.1f,0);
 
 			if(player != null){
 				player.transform.position = playerSpawnLoc;
