@@ -13,7 +13,7 @@ public class pauseIn : MonoBehaviour {
     void Start()
     {
 		pauseComponents.PauseMenu.SetActive(false);//menu not visible at start
-
+        //Here, getting all buttons(components) from PauseMenuUIComponents
 		pauseComponents.Resume.onClick.AddListener(onResumeGame);
 		pauseComponents.Settings.onClick.AddListener(onSettings);
 		pauseComponents.Quit.onClick.AddListener(onQuit);
@@ -27,10 +27,17 @@ public class pauseIn : MonoBehaviour {
 	}
 
 	public void onSettings(){
-
-	}
+        if (UIController != null)
+        {
+            
+        }
+    }
 
 	public void onQuit(){
+        if(UIController != null)
+        {
+            UIController.quitToMain();
+        }
 
 	}
 
@@ -43,12 +50,17 @@ public class pauseIn : MonoBehaviour {
 		}
 	}
 
-	public void HidePauseMeunu(){
+	public void HidePauseMenu(){
 		pauseComponents.PauseMenu.SetActive(false);//enabled - toggles visibility of the object
 		if(UIController != null && UIController.worldController !=null && UIController.worldController.player != null){
 			UIController.worldController.player.unlockPlayerControls();//enables player movement
 		}
 	}
+
+    public void ShowSettings()
+    {
+
+    }
 
     void Update()
     {

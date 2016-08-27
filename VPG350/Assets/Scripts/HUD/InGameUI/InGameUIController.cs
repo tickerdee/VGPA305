@@ -41,10 +41,16 @@ public class InGameUIController : MonoBehaviour {
 	}
 
 	public void UnPause(){
-		PauseIn.HidePauseMeunu();
+		PauseIn.HidePauseMenu();
 		hudController.gameObject.SetActive(true);
 		isPaused = false;
 	}
+
+    public void quitToMain()
+    {
+        //PauseIn.
+        UnityEngine.SceneManagement.SceneManager.LoadScene(1);//Scene 1 is main menu
+    }
 
 	// Update is called once per frame
 	void Update () {

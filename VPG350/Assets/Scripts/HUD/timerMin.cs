@@ -15,8 +15,8 @@ public class timerMin : MonoBehaviour {
 
     void Update()
     {
-            timerOnMin = (int)(Time.time / 60f);
-            timerOnSec = (int)(Time.time % 60f);
-            number_text.text = timerOnMin.ToString("00") + ":" + timerOnSec.ToString("00");
+        timerOnMin = (int)(Time.time / 60f);
+        timerOnSec = (int)(Time.time % 60f);
+        number_text.text = timerOnMin.ToString("00") + ":" + timerOnSec.ToString("00");
     }
 }
