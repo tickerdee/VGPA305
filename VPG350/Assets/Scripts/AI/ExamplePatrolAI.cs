@@ -22,6 +22,8 @@ public class ExamplePatrolAI : MonoBehaviour {
 	//This is just to visually see the target of the AI
 	public GameObject targetPrefab;
 
+	public float distanceFromNode = 0.95f;
+
 	// Use this for initialization
 	void Start () {
 		//We don't want our guard to start doing anything until the maze is finished
@@ -40,8 +42,8 @@ public class ExamplePatrolAI : MonoBehaviour {
 
 		//Set our state to patrolling for starters and get setup some patroling data
 		state = GaurdState.patroling;
-		GetNewPatrolToLocation();
 		path = new NavMeshPath();
+		GetNewPatrolToLocation();
 	}
 
 	void GetNewPatrolToLocation(){
@@ -79,12 +81,27 @@ public class ExamplePatrolAI : MonoBehaviour {
 				//We check if a path exist incase we are already moving to a target.
 				//This causes another check needed That makes sure if we already have a path is the target of that path still valid
 				if(!navAgent.hasPath && patrolTargetIsValid){
-					navAgent.CalculatePath(PatrolTarget, path);
-					navAgent.SetPath(path);
+					path = new NavMeshPath();
+
+					Debug.Log("On NavMesh" + navAgent.isOnNavMesh);
+
+					bool result = navAgent.CalculatePath(PatrolTarget, path);
+
+					result = navAgent.SetPath(path);
+
 				}else if(!patrolTargetIsValid){
 					//Call our method to get a new patrol target then wait for the next update to start moving
 					GetNewPatrolToLocation();
 				}
+
+				if (patrolTargetIsValid && Vector2.Distance (PatrolTarget, transform.position) <= distanceFromNode) {
+					CleanUpPath ();
+					GetNewPatrolToLocation ();
+				
+				} else {
+					Debug.Log (Vector2.Distance (PatrolTarget, transform.position) + " : " + distanceFromNode);
+				}
+					
 			}
 			break;
 
@@ -96,15 +113,20 @@ public class ExamplePatrolAI : MonoBehaviour {
 			break;
 		}
 
+
+
+	}
+
+	void CleanUpPath()
+	{
 		//If you not in patroling zero out navAgnet info
 		//This looks terrible is there a better flow to call this?
-		if(state != GaurdState.patroling){
-			if(navAgent != null){
-				navAgent.Stop();
-				navAgent.ResetPath();
+		if (state != GaurdState.patroling) {
+			if (navAgent != null) {
+				navAgent.Stop ();
+				navAgent.ResetPath ();
 				patrolTargetIsValid = false;
 			}
 		}
-
 	}
 }

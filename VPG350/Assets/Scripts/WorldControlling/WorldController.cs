@@ -24,6 +24,9 @@ public class WorldController : MonoBehaviour {
 	public Vector3 DefaultLocation;
 	public CharController player;
 
+	public GameObject GuardPrefab;
+	public GameObject Guard;
+
 	// Use this for initialization
 	void Start () {
 
@@ -42,7 +45,7 @@ public class WorldController : MonoBehaviour {
 		//If we don't have a player spawn one
 		if(PlayerPrefab != null && player == null){
 			player = ((GameObject)Instantiate(PlayerPrefab, DefaultLocation, Quaternion.identity)).GetComponent<CharController>();
-			Debug.Log ("Found Prefab = true");
+			//Debug.Log ("Found Prefab = true");
 		}else{
 			//else if all else fails try to find the object in the scene
 			player = FindObjectOfType<CharController>();
@@ -96,9 +99,12 @@ public class WorldController : MonoBehaviour {
 				}
             }
         }//End for maze y
+		
+		nodeMap = new NodeMap();
+		nodeMap.GenerateNodeMap(MazeGenerator.MAZE);
 
-		if(Entrance != null){
-			Vector3 playerSpawnLoc = Entrance.transform.position + new Vector3(0,player.transform.localScale.y + 0.1f,0);
+		if(Entrance != null && player != null){
+			Vector3 playerSpawnLoc = Entrance.transform.position + new Vector3(0, player.transform.localScale.y + 0.2f,0);
 
 			if(player != null){
 				player.transform.position = playerSpawnLoc;
@@ -106,16 +112,22 @@ public class WorldController : MonoBehaviour {
 		}
 
 		if(Exit != null){
-			Vector3 guardSpawnLoc = Exit.transform.position + new Vector3(0,0.5f,0);
+			Vector3 guardSpawnLoc = Exit.transform.position + new Vector3(0,3.0f,0);
 
-			var tempGaurd = FindObjectOfType<GuardAI>();
-			if(tempGaurd != null){
-				tempGaurd.transform.position = guardSpawnLoc;
+			//GameObject tempGaurd = (GameObject)Instantiate(GuardPrefab, new Vector3 (0, 100, 0), Quaternion.identity);
+
+			if (Guard != null) {
+				GameObject tempGuard = Guard;
+
+				if (tempGuard != null) {
+					tempGuard.transform.position = guardSpawnLoc;
+					Guard = tempGuard;
+					Guard.GetComponent<ExamplePatrolAI> ().StartGaurd ();
+				}
+			} else {
+				Debug.Log ("WorldController no Gaurd found");
 			}
 		}
-
-		nodeMap = new NodeMap();
-		nodeMap.GenerateNodeMap(MazeGenerator.MAZE);
 
 		if(worldEvents != null)
 			worldEvents.CallMazeFinished();
