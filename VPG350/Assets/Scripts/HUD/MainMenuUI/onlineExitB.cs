@@ -11,7 +11,7 @@ public class onlineExitB : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		mainComponents.Online.onClick.AddListener(exitOnline);
+		mainComponents.ExitOnline.onClick.AddListener(exitOnline);
 	
 	}
 

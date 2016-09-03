@@ -5,7 +5,9 @@ using UnityEngine.UI;
 public class M_UIController : MonoBehaviour {
     public nGameButton newGameButton;
 	public onlineButton onlineButtonInC;
-	public onlineExitB oExitButton;
+    public onlineExitB oExitButton;
+    public settingsButton settingsButtonInC;
+    public settingsExitB sExitButton;
     public tutorialButton tutorialButtonInC;
 	public tutorialExitB tExitButton; 
     public quit_MMenu_B quitGameInC;
@@ -24,6 +26,16 @@ public class M_UIController : MonoBehaviour {
 	{
 		oExitButton.exitOnline();
 	}
+
+    public void settingsOpen()
+    {
+        settingsButtonInC.showSettings();
+    }
+
+    public void settingsClose()
+    {
+        sExitButton.exitSettings();
+    }
 
     public void tutorialOpen()
     {
