@@ -60,6 +60,7 @@ public class CharController : MonoBehaviour {
     public bool IsRunning;
     public bool IsSneaking;
 	public bool IsWalking;
+	public bool WasRunning;
 
     public bool IsMoving;
 
@@ -121,11 +122,11 @@ public class CharController : MonoBehaviour {
     private object controller;
     private int jumpTimer;
     private float jumpSpeed;
-    private bool useMouseLook;
+    public bool useMouseLook;
 	MouseLook mouseLook;
 	public bool canMove;
 
-
+	public Rigidbody rb;
 
     // State Event
     public static event StateChanged Event_StateChanged;
@@ -138,12 +139,11 @@ public class CharController : MonoBehaviour {
 
         IsRunning = false;
         canMove = true;
-		useMouseLook = true;
 
         myTransform = transform;
         jumpTimer = JumpFactor;
 
-        Rigidbody rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         if (rb)
             rb.freezeRotation = true;
         originalRotation = transform.localRotation;
@@ -167,64 +167,65 @@ public class CharController : MonoBehaviour {
 
         Controller = GetComponent<CharacterController>();
         moveDirection = Vector3.zero;
-
-		//if (canMove == true) {
 			
-			if (Input.GetKey (KeyCode.Space)) {
-				//AnimRunTime = AnimState.jump;
-			}
+		if (Input.GetKey (KeyCode.Space)) {
+			//AnimRunTime = AnimState.jump;
+		}
 
-			if (Input.GetKey (KeyCode.Q)) {
-				IsSneaking = true;
-				IsRunning = false;
-				IsWalking = false;
-				animState = AnimState.sneak;
-			} else if (Input.GetKey (KeyCode.LeftShift)) { 
-				IsRunning = true;
-				IsSneaking = false;
-				IsWalking = false;
-            animState = AnimState.run;
-			} else if (IsMoving == true) {
-				IsWalking = true;
-				IsRunning = false;
-				IsSneaking = false;
-            animState = AnimState.walk;
-			} else {
-				IsMoving = false;
-            animState = AnimState.idle;
-			}
-
-			if (Input.GetKey (KeyCode.W)) {
-				moveDirection += transform.forward;
-				//Debug.Log("Walk Forward");
-				IsMoving = true;
-			}
-			if (Input.GetKey (KeyCode.S)) {
-				moveDirection += transform.forward * -1;
-				//Debug.Log("Walk Back");
-				IsMoving = true;
-			}
-
-			if (Input.GetKey (KeyCode.D)) {
-				moveDirection += transform.right;
-				//Debug.Log("Walk Right");
-				IsMoving = true;
-			}
-			if (Input.GetKey (KeyCode.A)) {
-				moveDirection += transform.right * -1;
-				//Debug.Log("Walk Left");
-				IsMoving = true;
-			}
-			// Jump! But only if the jump button has been released and player has been grounded for a given number of frames
-			if (Input.GetKey (KeyCode.Space)) {
-				jumpTimer++;
-			} else if (jumpTimer >= JumpFactor) {
-				moveDirection.y = jumpSpeed;
-				jumpTimer = 0;
-			}
-		//}
+		if (Input.GetKey (KeyCode.Q)) {
+			IsSneaking = true;
+			IsRunning = false;
+			IsWalking = false;
+			animState = AnimState.sneak;
+		} else if (Input.GetKey (KeyCode.LeftShift)) { 
+			IsRunning = true;
+			IsSneaking = false;
+			IsWalking = false;
+        animState = AnimState.run;
+		} else if (IsMoving == true) {
+			IsWalking = true;
+			IsRunning = false;
+			IsSneaking = false;
+        animState = AnimState.walk;
+		} else {
+			IsMoving = false;
+        animState = AnimState.idle;
+		}
 
 
+
+		if (!IsRunning && WasRunning) {
+			rb.velocity = rb.velocity * .5f;
+		}
+
+		if (Input.GetKey (KeyCode.W)) {
+			moveDirection += transform.forward;
+			//Debug.Log("Walk Forward");
+			IsMoving = true;
+		}
+		if (Input.GetKey (KeyCode.S)) {
+			moveDirection += transform.forward * -1;
+			//Debug.Log("Walk Back");
+			IsMoving = true;
+		}
+
+		if (Input.GetKey (KeyCode.D)) {
+			moveDirection += transform.right;
+			//Debug.Log("Walk Right");
+			IsMoving = true;
+		}
+		if (Input.GetKey (KeyCode.A)) {
+			moveDirection += transform.right * -1;
+			//Debug.Log("Walk Left");
+			IsMoving = true;
+		}
+		// Jump! But only if the jump button has been released and player has been grounded for a given number of frames
+		if (Input.GetKey (KeyCode.Space)) {
+			jumpTimer++;
+		} else if (jumpTimer >= JumpFactor) {
+			//moveDirection.y = jumpSpeed;
+			jumpTimer = 0;
+		}
 
         //moveDirection = transform.TransformDirection(moveDirection);
 		moveDirection.Normalize();
@@ -240,8 +241,14 @@ public class CharController : MonoBehaviour {
 			moveDirection *= WalkSpeed;
 		}
 
+		if (moveDirection != Vector3.zero) {
+			rb.AddForce (moveDirection * .6f);
+		} else {
+			rb.velocity = Vector3.zero;
+		}
 
-        Controller.Move(moveDirection * Time.deltaTime);
+		WasRunning = IsRunning;
+        //Controller.Move(moveDirection * Time.deltaTime);
 		//Debug.Log ("IsWalking " + IsWalking + " IsRunning " + IsRunning + " IsSneaking " + IsSneaking);
     }
 
@@ -287,7 +294,7 @@ public class CharController : MonoBehaviour {
             RotateView();
 
             // Apply gravity
-            moveDirection.y -= Gravity * Time.deltaTime;
+            //moveDirection.y -= Gravity * Time.deltaTime;
         }
 
         OldAnimState = animState;

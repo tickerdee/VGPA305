@@ -45,6 +45,8 @@ public class WorldController : MonoBehaviour {
 		//If we don't have a player spawn one
 		if(PlayerPrefab != null && player == null){
 			player = ((GameObject)Instantiate(PlayerPrefab, DefaultLocation, Quaternion.identity)).GetComponent<CharController>();
+			player.rb.velocity = Vector3.zero;
+
 			//Debug.Log ("Found Prefab = true");
 		}else{
 			//else if all else fails try to find the object in the scene
@@ -104,7 +106,7 @@ public class WorldController : MonoBehaviour {
 		nodeMap.GenerateNodeMap(MazeGenerator.MAZE);
 
 		if(Entrance != null && player != null){
-			Vector3 playerSpawnLoc = Entrance.transform.position + new Vector3(0, player.transform.localScale.y + 0.2f,0);
+			Vector3 playerSpawnLoc = Entrance.transform.position + new Vector3(0, player.transform.localScale.y,0);
 
 			if(player != null){
 				player.transform.position = playerSpawnLoc;
