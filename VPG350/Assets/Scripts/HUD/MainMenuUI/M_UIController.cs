@@ -3,30 +3,22 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class M_UIController : MonoBehaviour {
+    public nGameButton newGameButton;
+    public tutorialButton tutorialButtonInC;
+    public quit_MMenu_B quitGameInC;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-
-    public void startNewGame()
+    public void newGame()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(2);//Starts the Game
-
+        newGameButton.startGame();
     }
 
-    public void settings()
+    public void tutorialButton()
     {
-
+       // tutorialButtonInController.showTutorial();
     }
 
-    public void quitGame()
+    public void quitGameC()
     {
-        Application.Quit();
+        quitGameInC.quitGame();
     }
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }

@@ -21,7 +21,7 @@ public class InGameUIController : MonoBehaviour {
 	void Start () {
 
 		//We hope that it isn't null but if it is
-			//Someone failed to plugin a refernce for us let's fall back to trying to find it
+			//Someone failed to plugin a reference for us let's fall back to trying to find it
 		if(worldController == null){
 			worldController = FindObjectOfType<WorldController>();
 			//If we still can't find it someone fucked up in the scene
@@ -49,7 +49,7 @@ public class InGameUIController : MonoBehaviour {
     public void quitToMain()
     {
         //PauseIn.
-        UnityEngine.SceneManagement.SceneManager.LoadScene(1);//Scene 1 is main menu. Scene 2 is the game
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);//Scene 1 is main menu. Scene 2 is the game
     }
 
 	// Update is called once per frame
