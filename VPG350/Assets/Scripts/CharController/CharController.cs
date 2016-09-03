@@ -128,6 +128,8 @@ public class CharController : MonoBehaviour {
 
 	public Rigidbody rb;
 
+    public Animator animator;
+
     // State Event
     public static event StateChanged Event_StateChanged;
 
@@ -161,6 +163,20 @@ public class CharController : MonoBehaviour {
 			Debug.Log("Basic First Person Controller has no camera");
 		}
 
+        if(animator == null)
+        {
+            animator = this.GetComponent<Animator>();
+        }
+
+        Event_StateChanged += MyStateChanged;
+    }
+
+    void MyStateChanged(AnimState newState)
+    {
+        if (animator != null)
+        {
+            animator.SetInteger("AnimState", (int)newState);
+        }
     }
 
     void Control() {
@@ -181,18 +197,16 @@ public class CharController : MonoBehaviour {
 			IsRunning = true;
 			IsSneaking = false;
 			IsWalking = false;
-        animState = AnimState.run;
+            animState = AnimState.run;
 		} else if (IsMoving == true) {
 			IsWalking = true;
 			IsRunning = false;
 			IsSneaking = false;
-        animState = AnimState.walk;
+            animState = AnimState.walk;
 		} else {
 			IsMoving = false;
-        animState = AnimState.idle;
+            animState = AnimState.idle;
 		}
-
-
 
 		if (!IsRunning && WasRunning) {
 			rb.velocity = rb.velocity * .5f;
@@ -243,11 +257,16 @@ public class CharController : MonoBehaviour {
 
 		if (moveDirection != Vector3.zero) {
 			rb.AddForce (moveDirection * .6f);
-		} else {
+        } else {
 			rb.velocity = Vector3.zero;
 		}
 
-		WasRunning = IsRunning;
+        if (animator != null)
+        {
+            animator.SetFloat("moveV", moveDirection.magnitude / 10.0f);
+        }
+
+        WasRunning = IsRunning;
         //Controller.Move(moveDirection * Time.deltaTime);
 		//Debug.Log ("IsWalking " + IsWalking + " IsRunning " + IsRunning + " IsSneaking " + IsSneaking);
     }

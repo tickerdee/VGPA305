@@ -11,13 +11,13 @@ public class tutorialButton : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        mainComponents.Tutorial.SetActive(false);
+        //mainComponents.Tutorial.SetActive(false);
         //mainComponents.Tutorial.onClick.AddListener(showTutorial);
     }
 	
     public void  showTutorial()
     {
-        mainComponents.Tutorial.SetActive(true);
+        //mainComponents.Tutorial.SetActive(true);
     }
 
 }
