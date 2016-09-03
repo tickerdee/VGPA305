@@ -11,6 +11,8 @@ public class ExamplePatrolAI : MonoBehaviour {
 		staggered
 	}
 
+	public CharController.AnimState animState;
+
 	Vector3 PatrolTarget;
 	bool patrolTargetIsValid;
 	GaurdState state;
@@ -29,6 +31,8 @@ public class ExamplePatrolAI : MonoBehaviour {
 		//We don't want our guard to start doing anything until the maze is finished
 		//So using WorldEvents we can "add listeners" to events
 		WorldEvents.Event_MazeFinished += StartGaurd;
+
+		animState = CharController.AnimState.idle;
 	}
 
 	public void StartGaurd(){
@@ -75,6 +79,9 @@ public class ExamplePatrolAI : MonoBehaviour {
 			break;
 
 		case GaurdState.patroling:
+
+			animState = CharController.AnimState.walk;
+
 			//Because we use Get on navAgent we must null check it
 			if(navAgent != null){
 				//Check navAgnet, is the path valid, is our patrol target valid ( do we need a new target )
@@ -106,15 +113,15 @@ public class ExamplePatrolAI : MonoBehaviour {
 			break;
 
 		case GaurdState.chasing:
+			animState = CharController.AnimState.run;
 			break;
 		case GaurdState.struggling:
+			animState = CharController.AnimState.struggle;
 			break;
 		case GaurdState.staggered:
+			animState = CharController.AnimState.struggleLose;
 			break;
 		}
-
-
-
 	}
 
 	void CleanUpPath()
