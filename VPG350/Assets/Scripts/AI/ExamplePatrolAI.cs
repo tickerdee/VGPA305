@@ -116,10 +116,10 @@ public class ExamplePatrolAI : MonoBehaviour {
 			animState = CharController.AnimState.run;
 			break;
 		case GaurdState.struggling:
-			animState = CharController.AnimState.grapple;
+			animState = CharController.AnimState.struggle;
 			break;
 		case GaurdState.staggered:
-			animState = CharController.AnimState.defeat;
+			animState = CharController.AnimState.struggleLose;
 			break;
 		}
 	}

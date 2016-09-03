@@ -49,8 +49,10 @@ public class CharController : MonoBehaviour {
 
     // Char Variables
 
-    public enum AnimState { idle, sneak, walk, run, grapple, struggle, crouch, jump, interact, defeat, victory };
-	public AnimState AnimRunTime;
+    public enum AnimState { idle, sneak, walk, run, struggle, struggleLose };
+    // Crouch, Win, Lose, Interact, Jump
+	public AnimState animState;
+    public AnimState OldAnimState;
 
 	public float timeMoving;
 
@@ -124,6 +126,13 @@ public class CharController : MonoBehaviour {
 	public bool canMove;
 
 
+
+    // State Event
+    public static event StateChanged Event_StateChanged;
+
+    public delegate void StateChanged(AnimState NeoAnimState);
+
+
     // Use this for initialization
     void Start () {
 
@@ -162,27 +171,27 @@ public class CharController : MonoBehaviour {
 		//if (canMove == true) {
 			
 			if (Input.GetKey (KeyCode.Space)) {
-				AnimRunTime = AnimState.jump;
+				//AnimRunTime = AnimState.jump;
 			}
 
 			if (Input.GetKey (KeyCode.Q)) {
 				IsSneaking = true;
 				IsRunning = false;
 				IsWalking = false;
-				AnimRunTime = AnimState.sneak;
+				animState = AnimState.sneak;
 			} else if (Input.GetKey (KeyCode.LeftShift)) { 
 				IsRunning = true;
 				IsSneaking = false;
 				IsWalking = false;
-				AnimRunTime = AnimState.run;
+            animState = AnimState.run;
 			} else if (IsMoving == true) {
 				IsWalking = true;
 				IsRunning = false;
 				IsSneaking = false;
-				AnimRunTime = AnimState.walk;
+            animState = AnimState.walk;
 			} else {
 				IsMoving = false;
-				AnimRunTime = AnimState.idle;
+            animState = AnimState.idle;
 			}
 
 			if (Input.GetKey (KeyCode.W)) {
@@ -267,6 +276,10 @@ public class CharController : MonoBehaviour {
     // Update is called once per frame
     void Update() {
 
+        if (OldAnimState != animState)
+        {
+            Event_StateChanged(animState);
+        }
 
         if (canMove)
         {
@@ -276,6 +289,8 @@ public class CharController : MonoBehaviour {
             // Apply gravity
             moveDirection.y -= Gravity * Time.deltaTime;
         }
+
+        OldAnimState = animState;
     }
 
 }
