@@ -12,13 +12,16 @@ public class M_UIController : MonoBehaviour {
         newGameButton.startGame();
     }
 
-    public void tutorialButton()
+    public void tutorialOpen()
     {
-       // tutorialButtonInController.showTutorial();
+       tutorialButtonInC.showTutorial();
     }
+
 
     public void quitGameC()
     {
         quitGameInC.quitGame();
     }
+
+
 }

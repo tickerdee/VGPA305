@@ -43,7 +43,7 @@ public class InGameUIController : MonoBehaviour {
 	public void UnPause(){
 		PauseIn.HidePauseMenu();
 		hudController.gameObject.SetActive(true);
-		isPaused = false;
+		//isPaused = false;
 	}
 
     public void quitToMain()

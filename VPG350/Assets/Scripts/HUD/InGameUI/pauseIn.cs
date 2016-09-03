@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-//using UnityStandardAssets.Characters.FirstPerson;
 
 public class pauseIn : MonoBehaviour {
 
@@ -60,10 +59,5 @@ public class pauseIn : MonoBehaviour {
     public void ShowSettings()
     {
 
-    }
-
-    void Update()
-    {
-		
     }
 }
