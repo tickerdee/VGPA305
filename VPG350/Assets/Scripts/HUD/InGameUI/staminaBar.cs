@@ -65,7 +65,7 @@ public class staminaBar : MonoBehaviour {
         //conditions 
         if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.LeftShift) && calc_sta > 0)
         {
-            currentStamina -= staminaDepletion;
+			currentStamina -= staminaDepletion * Time.deltaTime;
             //makes sure current stamina does not decrease lower than zero
             if (currentStamina <= 0)
             {

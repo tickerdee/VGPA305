@@ -4,6 +4,6 @@ using UnityEngine.UI;
 
 public class M_UIComponents : MonoBehaviour
 {
-    public Button NewGame, Online, Settings, Tutorial, ExiTutorial, QuitGame;
+    public Button NewGame, Online, Settings, Tutorial, ExitTutorial, QuitGame;
     public GameObject MainMenu_Panel;
 }

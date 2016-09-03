@@ -4,7 +4,10 @@ using UnityEngine.UI;
 
 public class M_UIController : MonoBehaviour {
     public nGameButton newGameButton;
+	public onlineButton onlineButtonInC;
+	public onlineExitB oExitButton;
     public tutorialButton tutorialButtonInC;
+	public tutorialExitB tExitButton; 
     public quit_MMenu_B quitGameInC;
 
     public void newGame()
@@ -12,10 +15,25 @@ public class M_UIController : MonoBehaviour {
         newGameButton.startGame();
     }
 
+	public void onlineOpen ()
+	{
+		onlineButtonInC.openOnlineMenu();
+	}
+
+	public void onlineClose()
+	{
+		oExitButton.exitOnline();
+	}
+
     public void tutorialOpen()
     {
-       tutorialButtonInC.showTutorial();
+		tutorialButtonInC.showTutorial();
     }
+
+	public void tutorialExit()
+	{
+		tExitButton.exitTutorial();
+	}
 
 
     public void quitGameC()
