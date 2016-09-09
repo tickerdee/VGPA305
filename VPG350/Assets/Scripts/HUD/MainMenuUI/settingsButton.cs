@@ -15,7 +15,6 @@ public class settingsButton : MonoBehaviour {
         mainComponents.Settings.onClick.AddListener(showSettings);
 
         settingsScreen.SetActive(false);
-	//for exit should be here
 	}
 
     public void showSettings()

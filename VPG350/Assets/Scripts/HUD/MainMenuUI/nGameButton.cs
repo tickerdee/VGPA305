@@ -12,7 +12,7 @@ public class nGameButton : MonoBehaviour {
         mainComponents.NewGame.onClick.AddListener(startGame);
     }
 
-    //public 
+    //Loads the game
     public void startGame()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(1);
