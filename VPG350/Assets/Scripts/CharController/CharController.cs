@@ -49,86 +49,54 @@ public class CharController : MonoBehaviour {
 
     // Char Variables
 
+	//QTE Variables
+	public bool QTEActive;
+	public float QTBar;
+
+	// Anim State Variables
     public enum AnimState { idle, sneak, walk, run, struggle, struggleLose };
     // Crouch, Win, Lose, Interact, Jump
 	public AnimState animState;
     public AnimState OldAnimState;
 
-	public float timeMoving;
-
+	// Movement Bools
     public bool CanMove;
     public bool IsRunning;
     public bool IsSneaking;
 	public bool IsWalking;
 	public bool WasRunning;
-
-    public bool IsMoving;
+	public bool IsMoving;
 
     //Player Stamina Count
     public float calc_sta = 1.0f;
 
+	// Player Speed Variables
     public float SneakSpeed = 5.0f;
     public float WalkSpeed = 10.0f;
 	public float RunSpeed = 20.0f;
-    private float JumpSpeed = 8.0f;
-    private float Gravity = 20.0f;
+    //private float JumpSpeed = 8.0f;
+    //private float Gravity = 20.0f;
 
-    // If set true, diagonal speed can't exceed normal move speed
-    public bool limitDiagonalSpeed = true;
+	// Number of frames before being able to jump again; set to 0 to allow no wait time
+    //public int JumpFactor = 1;
 
-    // If set true, the run key toggles between running and walking
-    public bool toggleRun = false;
-
-    // If set true, player can change direction while in the air
-    public bool airControl = false;
-
-    // Number of frames before being able to jump again; set to 0 to allow no wait time
-    public int JumpFactor = 1;
-
+	// Movement Variables
     private Vector3 moveDirection = Vector3.zero;
     public CharacterController Controller;
     private Transform myTransform;
-    private bool PlayerControlled = false;
-    private int JumpTimer;
-
-	public bool IsControlled; // sets if character is being player controlled
+    //private int JumpTimer;
+	Quaternion originalRotation;
+	public bool canMove;
 
     //Mouse Look Variables
 	public Camera cam;
-
-    public enum RotationAxes { MouseXAndY = 0, MouseX = 1, MouseY = 2 }
-    public RotationAxes axes = RotationAxes.MouseXAndY;
-    public float sensitivityX = 0.01F;
-    public float sensitivityY = 0.01F;
-
-    public float minimumX = -360F;
-    public float maximumX = 360F;
-
-    public float minimumY = -60F;
-    public float maximumY = 60F;
-
-    float rotationX = 0F;
-    float rotationY = 0F;
-
-    private List<float> rotArrayX = new List<float>();
-    float rotAverageX = 0F;
-
-    private List<float> rotArrayY = new List<float>();
-    float rotAverageY = 0F;
-
-    public float frameCounter = 20;
-
-    Quaternion originalRotation;
-    private object controller;
-    private int jumpTimer;
-    private float jumpSpeed;
-    public bool useMouseLook;
+	public bool useMouseLook;
 	MouseLook mouseLook;
-	public bool canMove;
 
+    
+	// Char Parts Variables
 	public Rigidbody rb;
-
-    public Animator animator;
+	public Animator animator;
 
     // State Event
     public static event StateChanged Event_StateChanged;
@@ -141,9 +109,6 @@ public class CharController : MonoBehaviour {
 
         IsRunning = false;
         canMove = true;
-
-        myTransform = transform;
-        jumpTimer = JumpFactor;
 
         rb = GetComponent<Rigidbody>();
         if (rb)
@@ -232,13 +197,6 @@ public class CharController : MonoBehaviour {
 			moveDirection += transform.right * -1;
 			//Debug.Log("Walk Left");
 			IsMoving = true;
-		}
-		// Jump! But only if the jump button has been released and player has been grounded for a given number of frames
-		if (Input.GetKey (KeyCode.Space)) {
-			jumpTimer++;
-		} else if (jumpTimer >= JumpFactor) {
-			//moveDirection.y = jumpSpeed;
-			jumpTimer = 0;
 		}
 
         //moveDirection = transform.TransformDirection(moveDirection);
