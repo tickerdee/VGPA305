@@ -17,6 +17,12 @@ public class M_UIController : MonoBehaviour {
     //slider for controlling sound
     public soundBarSlider soundBar;
 
+	//toggle window/fullscreen
+	public windowChange windowInC;
+
+	//script controlling resolution
+	public resolutionScript resolutionChange;
+
     //starts the game
     public void newGame()
     {
@@ -42,10 +48,20 @@ public class M_UIController : MonoBehaviour {
     {
         sExitButton.exitSettings();
     }
+	//changes resolutions
+	public void resolutionMenu()
+	{
+		resolutionChange.to1080();
+	}
+	//toggles game window
+	public void windowToggle()
+	{
+		windowInC.toggleW(true);
+	}
 	//changes the volume of the background music
 	public void changeSound()
 	{
-		soundBar.changeVolume ();
+		soundBar.changeVolume (0);
 	}
     //opens tutorial
     public void tutorialOpen()
