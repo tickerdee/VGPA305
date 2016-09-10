@@ -49,6 +49,10 @@ public class CharController : MonoBehaviour {
 
     // Char Variables
 
+	//QTE Variables
+	public bool QTEActive;
+	public float QTBar;
+
 	// Anim State Variables
     public enum AnimState { idle, sneak, walk, run, struggle, struggleLose };
     // Crouch, Win, Lose, Interact, Jump
