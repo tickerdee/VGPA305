@@ -23,6 +23,10 @@ public class M_UIController : MonoBehaviour {
 	//script controlling resolution
 	public resolutionScript resolutionChange;
 
+	//Changing language
+	public englishLang changeEnglish;
+	public spanishLang changeSpanish;
+
     //starts the game
     public void newGame()
     {
@@ -58,6 +62,19 @@ public class M_UIController : MonoBehaviour {
 	{
 		windowInC.toggleW(true);
 	}
+
+	//changes the game's language to english
+	public void toEnglish()
+	{
+		changeEnglish.englishData ();
+	}
+
+	//changes the game's language to spanish
+	public void toSpanish()
+	{
+		changeSpanish.spanishData ();
+	}
+
 	//changes the volume of the background music
 	public void changeSound()
 	{
