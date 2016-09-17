@@ -153,6 +153,12 @@ public class CharController : MonoBehaviour {
         }
     }
 
+    void SetAnimState(AnimState newAnimState) {
+        animState = newAnimState;
+        animator.SetInteger("AnimState", (int)animState);
+    }
+    
+
     void Control() {
 
 		if (QTEActive == true ) {
@@ -186,23 +192,37 @@ public class CharController : MonoBehaviour {
 				IsSneaking = true;
 				IsRunning = false;
 				IsWalking = false;
-				animState = AnimState.sneak;
-			} else if (Input.GetKey (KeyCode.LeftShift)) { 
+                SetAnimState(AnimState.sneak);
+            } else if (Input.GetKey (KeyCode.LeftShift)) { 
 				IsRunning = true;
 				IsSneaking = false;
 				IsWalking = false;
-				animState = AnimState.run;
-			} else if (IsMoving == true) {
+                SetAnimState(AnimState.run);
+            } else if (IsMoving == true) {
 				IsWalking = true;
 				IsRunning = false;
 				IsSneaking = false;
-				animState = AnimState.walk;
-			} else {
+				
+                SetAnimState(AnimState.walk);
+            } else {
 				IsMoving = false;
-				animState = AnimState.idle;
+                SetAnimState(AnimState.idle);
 			}
+            //Testing Struggles
+            if (Input.GetKey(KeyCode.B))
+            {
+                SetAnimState(AnimState.struggle);
+            }
+            if (Input.GetKey(KeyCode.V))
+            {
+                SetAnimState(AnimState.struggleLose);
+            }
+            if (Input.GetKey(KeyCode.C))
+            {
+                SetAnimState(AnimState.sneak);
+            }
 
-			if (!IsRunning && WasRunning) {
+            if (!IsRunning && WasRunning) {
 				rb.velocity = rb.velocity * .5f;
 			}
 
@@ -211,6 +231,7 @@ public class CharController : MonoBehaviour {
 				//Debug.Log("Walk Forward");
 				IsMoving = true;
 			}
+
 			if (Input.GetKey (KeyCode.S)) {
 				moveDirection += transform.forward * -1;
 				//Debug.Log("Walk Back");
@@ -227,6 +248,15 @@ public class CharController : MonoBehaviour {
 				//Debug.Log("Walk Left");
 				IsMoving = true;
 			}
+
+            if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+            {
+                IsMoving = true;
+            }
+            else
+            {
+                IsMoving = false;
+            }
 
 			//moveDirection = transform.TransformDirection(moveDirection);
 			moveDirection.Normalize ();
@@ -254,7 +284,7 @@ public class CharController : MonoBehaviour {
 			//Debug.Log ("IsWalking " + IsWalking + " IsRunning " + IsRunning + " IsSneaking " + IsSneaking);
 			QTEInit = true;
 
-		}
+		    }
 		}
 
 
@@ -299,12 +329,13 @@ public class CharController : MonoBehaviour {
 
 			if (BreakawayNum >= 18) {
 				QTEWin = true;
-				animState = AnimState.idle;
-				GuardState = AnimState.struggleLose;
+                SetAnimState(AnimState.idle);
+                GuardState = AnimState.struggleLose;
 			}
 		} else {
 			QTEActive = false;
-			animState = AnimState.struggleLose;
+            SetAnimState(AnimState.struggleLose);
+           
 			GuardState = AnimState.idle;
 
 		}

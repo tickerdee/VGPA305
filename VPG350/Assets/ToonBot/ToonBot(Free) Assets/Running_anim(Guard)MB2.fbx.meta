@@ -1,0 +1,205 @@
+fileFormatVersion: 2
+guid: a4cda37454f2d3640a55f23afe0fa692
+timeCreated: 1474134206
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: iPiMocap:EffectorHead
+    100002: iPiMocap:EffectorLFinger0
+    100004: iPiMocap:EffectorLFinger1
+    100006: iPiMocap:EffectorLFinger2
+    100008: iPiMocap:EffectorLFinger3
+    100010: iPiMocap:EffectorLFinger4
+    100012: iPiMocap:EffectorLToe
+    100014: iPiMocap:EffectorRFinger0
+    100016: iPiMocap:EffectorRFinger1
+    100018: iPiMocap:EffectorRFinger2
+    100020: iPiMocap:EffectorRFinger3
+    100022: iPiMocap:EffectorRFinger4
+    100024: iPiMocap:EffectorRToe
+    100026: iPiMocap:Head
+    100028: iPiMocap:Hips
+    100030: iPiMocap:LeftArm
+    100032: iPiMocap:LeftFoot
+    100034: iPiMocap:LeftForeArm
+    100036: iPiMocap:LeftHand
+    100038: iPiMocap:LeftHandIndex1
+    100040: iPiMocap:LeftHandIndex2
+    100042: iPiMocap:LeftHandIndex3
+    100044: iPiMocap:LeftHandMiddle1
+    100046: iPiMocap:LeftHandMiddle2
+    100048: iPiMocap:LeftHandMiddle3
+    100050: iPiMocap:LeftHandPinky1
+    100052: iPiMocap:LeftHandPinky2
+    100054: iPiMocap:LeftHandPinky3
+    100056: iPiMocap:LeftHandRing1
+    100058: iPiMocap:LeftHandRing2
+    100060: iPiMocap:LeftHandRing3
+    100062: iPiMocap:LeftHandThumb1
+    100064: iPiMocap:LeftHandThumb2
+    100066: iPiMocap:LeftHandThumb3
+    100068: iPiMocap:LeftLeg
+    100070: iPiMocap:LeftShoulder
+    100072: iPiMocap:LeftToeBase
+    100074: iPiMocap:LeftUpLeg
+    100076: iPiMocap:Neck
+    100078: iPiMocap:RightArm
+    100080: iPiMocap:RightFoot
+    100082: iPiMocap:RightForeArm
+    100084: iPiMocap:RightHand
+    100086: iPiMocap:RightHandIndex1
+    100088: iPiMocap:RightHandIndex2
+    100090: iPiMocap:RightHandIndex3
+    100092: iPiMocap:RightHandMiddle1
+    100094: iPiMocap:RightHandMiddle2
+    100096: iPiMocap:RightHandMiddle3
+    100098: iPiMocap:RightHandPinky1
+    100100: iPiMocap:RightHandPinky2
+    100102: iPiMocap:RightHandPinky3
+    100104: iPiMocap:RightHandRing1
+    100106: iPiMocap:RightHandRing2
+    100108: iPiMocap:RightHandRing3
+    100110: iPiMocap:RightHandThumb1
+    100112: iPiMocap:RightHandThumb2
+    100114: iPiMocap:RightHandThumb3
+    100116: iPiMocap:RightLeg
+    100118: iPiMocap:RightShoulder
+    100120: iPiMocap:RightToeBase
+    100122: iPiMocap:RightUpLeg
+    100124: iPiMocap:Spine
+    100126: iPiMocap:Spine1
+    100128: iPiMocap:Spine2
+    100130: //RootNode
+    400000: iPiMocap:EffectorHead
+    400002: iPiMocap:EffectorLFinger0
+    400004: iPiMocap:EffectorLFinger1
+    400006: iPiMocap:EffectorLFinger2
+    400008: iPiMocap:EffectorLFinger3
+    400010: iPiMocap:EffectorLFinger4
+    400012: iPiMocap:EffectorLToe
+    400014: iPiMocap:EffectorRFinger0
+    400016: iPiMocap:EffectorRFinger1
+    400018: iPiMocap:EffectorRFinger2
+    400020: iPiMocap:EffectorRFinger3
+    400022: iPiMocap:EffectorRFinger4
+    400024: iPiMocap:EffectorRToe
+    400026: iPiMocap:Head
+    400028: iPiMocap:Hips
+    400030: iPiMocap:LeftArm
+    400032: iPiMocap:LeftFoot
+    400034: iPiMocap:LeftForeArm
+    400036: iPiMocap:LeftHand
+    400038: iPiMocap:LeftHandIndex1
+    400040: iPiMocap:LeftHandIndex2
+    400042: iPiMocap:LeftHandIndex3
+    400044: iPiMocap:LeftHandMiddle1
+    400046: iPiMocap:LeftHandMiddle2
+    400048: iPiMocap:LeftHandMiddle3
+    400050: iPiMocap:LeftHandPinky1
+    400052: iPiMocap:LeftHandPinky2
+    400054: iPiMocap:LeftHandPinky3
+    400056: iPiMocap:LeftHandRing1
+    400058: iPiMocap:LeftHandRing2
+    400060: iPiMocap:LeftHandRing3
+    400062: iPiMocap:LeftHandThumb1
+    400064: iPiMocap:LeftHandThumb2
+    400066: iPiMocap:LeftHandThumb3
+    400068: iPiMocap:LeftLeg
+    400070: iPiMocap:LeftShoulder
+    400072: iPiMocap:LeftToeBase
+    400074: iPiMocap:LeftUpLeg
+    400076: iPiMocap:Neck
+    400078: iPiMocap:RightArm
+    400080: iPiMocap:RightFoot
+    400082: iPiMocap:RightForeArm
+    400084: iPiMocap:RightHand
+    400086: iPiMocap:RightHandIndex1
+    400088: iPiMocap:RightHandIndex2
+    400090: iPiMocap:RightHandIndex3
+    400092: iPiMocap:RightHandMiddle1
+    400094: iPiMocap:RightHandMiddle2
+    400096: iPiMocap:RightHandMiddle3
+    400098: iPiMocap:RightHandPinky1
+    400100: iPiMocap:RightHandPinky2
+    400102: iPiMocap:RightHandPinky3
+    400104: iPiMocap:RightHandRing1
+    400106: iPiMocap:RightHandRing2
+    400108: iPiMocap:RightHandRing3
+    400110: iPiMocap:RightHandThumb1
+    400112: iPiMocap:RightHandThumb2
+    400114: iPiMocap:RightHandThumb3
+    400116: iPiMocap:RightLeg
+    400118: iPiMocap:RightShoulder
+    400120: iPiMocap:RightToeBase
+    400122: iPiMocap:RightUpLeg
+    400124: iPiMocap:Spine
+    400126: iPiMocap:Spine1
+    400128: iPiMocap:Spine2
+    400130: //RootNode
+    7400000: iPi Default Take
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
