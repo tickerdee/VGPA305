@@ -15,7 +15,7 @@ public class ExamplePatrolAI : MonoBehaviour {
 
 	Vector3 PatrolTarget;
 	bool patrolTargetIsValid;
-	GaurdState state;
+	GaurdState state, oldState;
 
 	//Possibly a better idea. We inherit from NavMeshAgent?
 	NavMeshAgent navAgent;
@@ -26,13 +26,35 @@ public class ExamplePatrolAI : MonoBehaviour {
 
 	public float distanceFromNode = 0.95f;
 
+	public LOS myLOS;
+
 	// Use this for initialization
 	void Start () {
+
 		//We don't want our guard to start doing anything until the maze is finished
 		//So using WorldEvents we can "add listeners" to events
 		WorldEvents.Event_MazeFinished += StartGaurd;
 
 		animState = CharController.AnimState.idle;
+
+		if (myLOS == null) {
+			Debug.Log ("GUARD HAS NO LOS");
+		} 
+		else 
+		{
+			myLOS.Event_LOSTargetSeen += LOSTargetSeen;
+			myLOS.Event_LOSTargetLost += LOSTargetLost;
+		}
+	}
+
+	public void LOSTargetSeen()
+	{
+		state = GaurdState.chasing;
+	}
+
+	public void LOSTargetLost()
+	{
+		state = GaurdState.patroling;
 	}
 
 	public void StartGaurd(){
@@ -73,6 +95,12 @@ public class ExamplePatrolAI : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+		//Do not put code between this and the switch case
+		if (oldState != state) 
+		{
+			OnStateChanged (state);
+		}
+
 		//Do some super nasty temporary state machine code
 		switch(state){
 		case GaurdState.NONE:
@@ -90,8 +118,6 @@ public class ExamplePatrolAI : MonoBehaviour {
 				if(!navAgent.hasPath && patrolTargetIsValid){
 					path = new NavMeshPath();
 
-					Debug.Log("On NavMesh" + navAgent.isOnNavMesh);
-
 					bool result = navAgent.CalculatePath(PatrolTarget, path);
 
 					result = navAgent.SetPath(path);
@@ -106,7 +132,7 @@ public class ExamplePatrolAI : MonoBehaviour {
 					GetNewPatrolToLocation ();
 				
 				} else {
-					Debug.Log (Vector2.Distance (PatrolTarget, transform.position) + " : " + distanceFromNode);
+					//Debug.Log (Vector2.Distance (PatrolTarget, transform.position) + " : " + distanceFromNode);
 				}
 					
 			}
@@ -114,6 +140,8 @@ public class ExamplePatrolAI : MonoBehaviour {
 
 		case GaurdState.chasing:
 			animState = CharController.AnimState.run;
+			myLOS.ChasePlayer ();
+			Debug.Log ("Chasing");
 			break;
 		case GaurdState.struggling:
 			animState = CharController.AnimState.struggle;
@@ -121,6 +149,21 @@ public class ExamplePatrolAI : MonoBehaviour {
 		case GaurdState.staggered:
 			animState = CharController.AnimState.struggleLose;
 			break;
+		}
+
+		oldState = state;
+	}
+
+	void OnStateChanged(GaurdState state)
+	{
+		if (state != GaurdState.patroling) 
+		{
+			//Do any fix for switching from patrolling
+			CleanUpPath ();
+		} 
+		else if (state != GaurdState.chasing) 
+		{
+			//Do any fix for switching from chasing
 		}
 	}
 

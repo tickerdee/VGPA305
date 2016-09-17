@@ -3,7 +3,7 @@ using System.Collections;
 
 public class LOS : MonoBehaviour {
 
-	public Transform target;
+	public GameObject target;
 	public float speed = 0.1f;
 
 	public GameObject guard;
@@ -14,29 +14,58 @@ public class LOS : MonoBehaviour {
 
 	public float thrust = 5;
 
+	public event LOSTargetSeen Event_LOSTargetSeen;
+	public event LOSTargetLost Event_LOSTargetLost;
+
+	public delegate void LOSTargetLost();
+	public delegate void LOSTargetSeen();
 
 	// Use this for initialization
 	void Start () 
 	{
 		seen = false;
-		//rb = GetComponent<Rigidbody> ();
+
+
+
+	}
+
+	public void FireLOSTargetLost()
+	{
+
+		if (Event_LOSTargetLost != null) {
+			Event_LOSTargetLost ();
+		}
+	}
+
+	public void FireLOSTargetSeen()
+	{
+
+		if (Event_LOSTargetSeen != null) {
+			Event_LOSTargetSeen ();
+		}
 	}
 
 	public void OnTriggerEnter(Collider collision)
 	{
-		if (collision.gameObject.tag == "Player") 
+		//if (collision.gameObject.tag == "Player") 
+		if(collision.gameObject.GetComponent<CharController>() != null)
 		{
-			Debug.Log (seen);
+			target = collision.gameObject;
 			seen = true;
+			Debug.Log ("Los Saw");
+
+			FireLOSTargetSeen ();
 		}
 
 	}
 
 	public void OnTriggerExit(Collider collision)
 	{
-		if (collision.gameObject.tag == "Player") 
+		if(collision.gameObject.GetComponent<CharController>() != null)
 		{
 			seen = false;
+			Debug.Log ("Los Lost");
+			FireLOSTargetLost ();
 		}
 
 
@@ -47,30 +76,26 @@ public class LOS : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		//float step = speed * Time.deltaTime;
-		/*
-		Vector3 relativePos = target.position - transform.position;
-		Quaternion rotation = Quaternion.LookRotation(relativePos);
-		transform.rotation = rotation;
-		*/
-
-
-
-		if (seen == true) 
-		{
-			Vector3 targetPostition = new Vector3( target.position.x, 
-				guard.transform.position.y, 
-				target.position.z ) ;
-			guard.transform.LookAt( targetPostition ) ;
-
-			rb.AddRelativeForce (Vector3.forward * thrust);
-
-
-			//guard.transform.position = Vector3.MoveTowards (transform.position, target.position, speed);
-
-		}
+		
+	
 
 	}
+
+	public void ChasePlayer ()
+	{
+		Vector3 targetPostition = new Vector3 (target.transform.position.x, guard.transform.position.y, target.transform.position.z);
+		guard.transform.LookAt (targetPostition);
+
+
+		rb.AddRelativeForce (Vector3.forward * thrust);
+
+		if (rb.velocity.magnitude > 0.5f) {
+			rb.velocity.Normalize ();
+			rb.velocity *= 0.5f;
+		}
+	}
+
+
 
 
 }
