@@ -51,12 +51,21 @@ public class CharController : MonoBehaviour {
 
 	//QTE Variables
 	public bool QTEActive;
-	public float QTBar;
+	public float BreakawayNum;
+	private bool RightPressed;
+	private bool LeftPressed;
+	public float QTETimerNum;
+	public float QTETimerMax;
+	public bool QTEWin;
+
+	public bool QTEInit;
+
 
 	// Anim State Variables
     public enum AnimState { idle, sneak, walk, run, struggle, struggleLose };
     // Crouch, Win, Lose, Interact, Jump
 	public AnimState animState;
+	public AnimState GuardState;
     public AnimState OldAnimState;
 
 	// Movement Bools
@@ -146,88 +155,109 @@ public class CharController : MonoBehaviour {
 
     void Control() {
 
-        Controller = GetComponent<CharacterController>();
-        moveDirection = Vector3.zero;
-			
-		if (Input.GetKey (KeyCode.Space)) {
-			//AnimRunTime = AnimState.jump;
-		}
+		if (QTEActive == true ) {
+			if (QTEWin == true) {
+				QTEActive = false;
+			}
 
-		if (Input.GetKey (KeyCode.Q)) {
-			IsSneaking = true;
-			IsRunning = false;
-			IsWalking = false;
-			animState = AnimState.sneak;
-		} else if (Input.GetKey (KeyCode.LeftShift)) { 
-			IsRunning = true;
-			IsSneaking = false;
-			IsWalking = false;
-            animState = AnimState.run;
-		} else if (IsMoving == true) {
-			IsWalking = true;
-			IsRunning = false;
-			IsSneaking = false;
-            animState = AnimState.walk;
+			if (QTEInit == true) {
+				animState = AnimState.struggle;
+				BreakawayNum = 0;
+				LeftPressed = true;
+				RightPressed = true;
+				QTETimerNum = 5.0f;
+				QTEInit = false;
+				QTEWin = false;
+			}
+				
+			QTEEvent ();
+
 		} else {
-			IsMoving = false;
-            animState = AnimState.idle;
+
+			Controller = GetComponent<CharacterController> ();
+			moveDirection = Vector3.zero;
+			
+			if (Input.GetKey (KeyCode.Space)) {
+				QTEActive = true;
+				//AnimRunTime = AnimState.jump;
+			}
+
+			if (Input.GetKey (KeyCode.Q)) {
+				IsSneaking = true;
+				IsRunning = false;
+				IsWalking = false;
+				animState = AnimState.sneak;
+			} else if (Input.GetKey (KeyCode.LeftShift)) { 
+				IsRunning = true;
+				IsSneaking = false;
+				IsWalking = false;
+				animState = AnimState.run;
+			} else if (IsMoving == true) {
+				IsWalking = true;
+				IsRunning = false;
+				IsSneaking = false;
+				animState = AnimState.walk;
+			} else {
+				IsMoving = false;
+				animState = AnimState.idle;
+			}
+
+			if (!IsRunning && WasRunning) {
+				rb.velocity = rb.velocity * .5f;
+			}
+
+			if (Input.GetKey (KeyCode.W)) {
+				moveDirection += transform.forward;
+				//Debug.Log("Walk Forward");
+				IsMoving = true;
+			}
+			if (Input.GetKey (KeyCode.S)) {
+				moveDirection += transform.forward * -1;
+				//Debug.Log("Walk Back");
+				IsMoving = true;
+			}
+
+			if (Input.GetKey (KeyCode.D)) {
+				moveDirection += transform.right;
+				//Debug.Log("Walk Right");
+				IsMoving = true;
+			}
+			if (Input.GetKey (KeyCode.A)) {
+				moveDirection += transform.right * -1;
+				//Debug.Log("Walk Left");
+				IsMoving = true;
+			}
+
+			//moveDirection = transform.TransformDirection(moveDirection);
+			moveDirection.Normalize ();
+
+			if (IsRunning == true) {
+				moveDirection *= RunSpeed;
+			} else if (IsSneaking == true) {
+				moveDirection *= SneakSpeed;
+			} else if (IsWalking == true) {
+				moveDirection *= WalkSpeed;
+			}
+
+			if (moveDirection != Vector3.zero) {
+				rb.AddForce (moveDirection * .6f);
+			} else {
+				rb.velocity = Vector3.zero;
+			}
+
+			if (animator != null) {
+				animator.SetFloat ("moveV", moveDirection.magnitude / 10.0f);
+			}
+
+			WasRunning = IsRunning;
+			//Controller.Move(moveDirection * Time.deltaTime);
+			//Debug.Log ("IsWalking " + IsWalking + " IsRunning " + IsRunning + " IsSneaking " + IsSneaking);
+			QTEInit = true;
+
+		}
 		}
 
-		if (!IsRunning && WasRunning) {
-			rb.velocity = rb.velocity * .5f;
-		}
 
-		if (Input.GetKey (KeyCode.W)) {
-			moveDirection += transform.forward;
-			//Debug.Log("Walk Forward");
-			IsMoving = true;
-		}
-		if (Input.GetKey (KeyCode.S)) {
-			moveDirection += transform.forward * -1;
-			//Debug.Log("Walk Back");
-			IsMoving = true;
-		}
-
-		if (Input.GetKey (KeyCode.D)) {
-			moveDirection += transform.right;
-			//Debug.Log("Walk Right");
-			IsMoving = true;
-		}
-		if (Input.GetKey (KeyCode.A)) {
-			moveDirection += transform.right * -1;
-			//Debug.Log("Walk Left");
-			IsMoving = true;
-		}
-
-        //moveDirection = transform.TransformDirection(moveDirection);
-		moveDirection.Normalize();
-
-        if(IsRunning == true)
-        {
-            moveDirection *= RunSpeed;
-		} else if (IsSneaking == true)
-        {
-            moveDirection *= SneakSpeed;
-		} else if (IsWalking == true)
-		{
-			moveDirection *= WalkSpeed;
-		}
-
-		if (moveDirection != Vector3.zero) {
-			rb.AddForce (moveDirection * .6f);
-        } else {
-			rb.velocity = Vector3.zero;
-		}
-
-        if (animator != null)
-        {
-            animator.SetFloat("moveV", moveDirection.magnitude / 10.0f);
-        }
-
-        WasRunning = IsRunning;
-        //Controller.Move(moveDirection * Time.deltaTime);
-		//Debug.Log ("IsWalking " + IsWalking + " IsRunning " + IsRunning + " IsSneaking " + IsSneaking);
-    }
 
 	private void RotateView()
 	{
@@ -243,6 +273,42 @@ public class CharController : MonoBehaviour {
 			}
 			mouseLook.LookRotation(transform, cam.transform);
 		}
+	}
+
+	public void QTEEvent(){
+
+		QTETimerNum -= Time.deltaTime;
+
+		if (QTETimerNum > 0) {
+
+			if (Input.GetKeyUp (KeyCode.Q)) {
+				if (RightPressed == true) {
+					BreakawayNum++;
+				}
+				LeftPressed = true;
+				RightPressed = false;
+			}
+
+			if (Input.GetKeyUp (KeyCode.E)) {
+				if (LeftPressed == true) {
+					BreakawayNum++;
+				}
+				RightPressed = true;
+				LeftPressed = false;
+			}
+
+			if (BreakawayNum >= 18) {
+				QTEWin = true;
+				animState = AnimState.idle;
+				GuardState = AnimState.struggleLose;
+			}
+		} else {
+			QTEActive = false;
+			animState = AnimState.struggleLose;
+			GuardState = AnimState.idle;
+
+		}
+		Debug.Log ("Left " + LeftPressed + " Right " + RightPressed + " Breakaway " + BreakawayNum + " Timer " + QTETimerNum + " Win/Lost " + QTEWin);
 	}
 
 	public void lockPlayerControls()
