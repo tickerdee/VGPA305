@@ -45,7 +45,6 @@ public class WorldController : MonoBehaviour {
 		//If we don't have a player spawn one
 		if(PlayerPrefab != null && player == null){
 			player = ((GameObject)Instantiate(PlayerPrefab, DefaultLocation, Quaternion.identity)).GetComponent<CharController>();
-			player.rb.velocity = Vector3.zero;
 
 			//Debug.Log ("Found Prefab = true");
 		}else{

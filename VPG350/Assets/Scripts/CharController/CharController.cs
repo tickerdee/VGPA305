@@ -142,6 +142,11 @@ public class CharController : MonoBehaviour {
             animator = this.GetComponent<Animator>();
         }
 
+		if(rb == null)
+		{
+			this.GetComponent<Rigidbody>();
+		}
+
         Event_StateChanged += MyStateChanged;
     }
 
@@ -155,7 +160,9 @@ public class CharController : MonoBehaviour {
 
     void SetAnimState(AnimState newAnimState) {
         animState = newAnimState;
-        animator.SetInteger("AnimState", (int)animState);
+		if(animator != null){
+        	animator.SetInteger("AnimState", (int)animState);
+		}
     }
     
 
