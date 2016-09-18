@@ -21,22 +21,22 @@ public class spanishLang : MonoBehaviour {
 	
 	public void spanishData()
 	{
-		nuevoJuegoText.text="Juego Nuevo";
+		nuevoJuegoText.text="Nueva Partida";
 		enLineaText.text = "En Linea";
-		opcionesText.text = "Opciones";
+		opcionesText.text = "Ajustes";
 		tutorialesText.text = "Tutorial";
 		tutorialInsideText.text = "COMO JUGAR\n";
-		cerrarText.text = "Cerrar";
+		cerrarText.text = "Salir";
 
-		tutorialTextControls.text = "W - Mover Hacia Adelante\nS - Mover Haciar Atras\nA - Mover Izquierda\nD - Mover Derecha\nShift + Movimiento - Correr\nP/Esc - Pausa\n";
+		tutorialTextControls.text = "W - Adelante\nS - Atrás\nA - Izquierda\nD - Derecha\nShift + Movimiento - Correr\nP/Esc - Pausa\n";
 
 		conectarText.text = "Conectar";
 		hostText.text = "Host";
-		resolucionText.text = "Resolucion";
+		resolucionText.text = "Resolución";
 		winToggleText.text = "Ventana";
 		sonidoText.text = "Sonido";
 		lenguajeText.text = "Lenguaje";
-		inglesBText.text = "Ingles";
-		espanolBText.text = "Espanol";
+		inglesBText.text = "English";
+		espanolBText.text = "Español";
 	}
 }

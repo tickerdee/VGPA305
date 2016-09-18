@@ -22,10 +22,16 @@ public class M_UIController : MonoBehaviour {
 
 	//script controlling resolution
 	public resolutionScript resolutionChange;
+    //private bool isWindowed;
 
 	//Changing language
 	public englishLang changeEnglish;
 	public spanishLang changeSpanish;
+
+    void Start()
+    {
+        changeEnglish.englishData();
+    }
 
     //starts the game
     public void newGame()

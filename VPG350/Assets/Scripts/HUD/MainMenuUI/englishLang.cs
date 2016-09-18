@@ -36,7 +36,7 @@ public class englishLang : MonoBehaviour {
 		soundText.text = "Sound";
 		languageText.text = "Language";
 		englishBText.text = "English";
-		spanishBText.text = "Espanol";
+		spanishBText.text = "Español";
 
 
 	}

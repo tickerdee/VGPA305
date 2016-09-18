@@ -22,14 +22,12 @@ public class resolutionScript : MonoBehaviour {
 		mainComponents.b4x768.onClick.AddListener (to4x768);
 		//800x600
 		mainComponents.b600.onClick.AddListener (to600);
-
 	}
-
 
 	public void to1080()//1920x1080
 	{
-		Screen.SetResolution(1920,1080, false);
-	}
+        Screen.SetResolution(1920, 1080, false); //MainController.windowInC);//the 3rd value is whether or not the window is full is screen
+    }
 	public void to6x768()//1366x768
 	{
 		Screen.SetResolution(1366, 768, false);
