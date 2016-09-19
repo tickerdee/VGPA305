@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class InGameUIController : MonoBehaviour {
 
@@ -14,11 +15,32 @@ public class InGameUIController : MonoBehaviour {
 	public bool isPaused;
 
 	//Hopefully someone will set this
-	//A refernce to our WorldController
+	//A reference to our WorldController
 	public WorldController worldController;
 
-	// Use this for initialization
-	void Start () {
+    //calling settings
+
+    //opens settings
+    public settingsButton settingsButtonInC;
+
+    //closes the settings window
+    public settingsExitB sExitButton;
+    
+    //slider for controlling sound
+    public soundBarSlider soundBar;
+
+    //toggle window/fullscreen
+    public windowChange windowInC;
+
+    //script controlling resolution
+    public resolutionScript resolutionChange;
+
+    //Changing language
+    public englishLang changeEnglish;
+    public spanishLang changeSpanish;
+
+    // Use this for initialization
+    void Start () {
 
 		//We hope that it isn't null but if it is
 			//Someone failed to plugin a reference for us let's fall back to trying to find it
@@ -43,21 +65,60 @@ public class InGameUIController : MonoBehaviour {
 	public void UnPause(){
 		PauseIn.HidePauseMenu();
 		hudController.gameObject.SetActive(true);
-		//isPaused = false;
 	}
 
     public void quitToMain()
     {
-        //PauseIn.
         UnityEngine.SceneManagement.SceneManager.LoadScene(0);//Scene 1 is main menu. Scene 2 is the game
     }
 
-	// Update is called once per frame
-	void Update () {
+    //inside the settings these will be called
+    //opens settings menu
+    public void settingsOpen()
+    {
+        settingsButtonInC.showSettings();
+    }
+    //closes settings menu
+    public void settingsClose()
+    {
+        sExitButton.exitSettings();
+    }
+
+    //changes the volume of the background music
+    public void changeSound()
+    {
+        soundBar.changeVolume(0);
+    }
+
+    //changes resolutions
+    public void resolutionMenu()
+    {
+        resolutionChange.to1080();
+    }
+    //toggles game window
+    public void windowToggle()
+    {
+        windowInC.toggleW(true);
+    }
+
+    //changes the game's language to english
+    public void toEnglish()
+    {
+        changeEnglish.englishData();
+    }
+
+    //changes the game's language to spanish
+    public void toSpanish()
+    {
+        changeSpanish.spanishData();
+    }
+
+    // Update is called once per frame
+    void Update ()
+    {
 		if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))//when P or Esc is pressed
 		{
 			isPaused = !isPaused;//toggles true or false on key press
-
 			if(isPaused){
 				Pause();
 			}else{
@@ -65,4 +126,6 @@ public class InGameUIController : MonoBehaviour {
 			}
 		}
 	}
+
+
 }
