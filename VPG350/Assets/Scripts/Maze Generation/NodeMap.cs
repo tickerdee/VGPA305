@@ -65,7 +65,7 @@ public class NodeMap{
 		if(NodeList.Count > 0){
 
 			int searchCount = 0;
-			while(recentDistance < distanceAway || searchCount < 100){
+			while(recentDistance < distanceAway || searchCount < 10){
 				
 				outLocation = ((Node)NodeList[Random.Range(0, NodeList.Count - 1)]).WorldLoc;
 				recentDistance = (relativeLocation - outLocation).magnitude;
