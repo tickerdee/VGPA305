@@ -6,6 +6,10 @@ public class englishLang : MonoBehaviour {
 
 	public M_UIComponents mainComponents;
 	public M_UIController MainController;
+
+	public PauseMenuUIComponents pauseMenuComponents;
+	public InGameUIController inGameUIController;
+
 	//text on the main menu
 	public Text newgameText,onlineText, settingsText, tutorialText, tutorialInsideText, tutorialTextControls, quitText;
 	//text on the online
@@ -15,7 +19,14 @@ public class englishLang : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		mainComponents.English.onClick.AddListener(englishData);
+		if (mainComponents != null) 
+		{
+			mainComponents.English.onClick.AddListener (englishData);
+		}
+		else
+		{
+			pauseMenuComponents.English.onClick.AddListener (englishData);
+		}
 	}
 
 	public void englishData()

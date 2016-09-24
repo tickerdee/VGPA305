@@ -31,9 +31,6 @@ public class LOS : MonoBehaviour {
 	void Start () 
 	{
 		seen = false;
-
-
-
 	}
 
 	public void FireLOSTargetLost()
@@ -72,14 +69,21 @@ public class LOS : MonoBehaviour {
 
 		target = gameObject;
 		seen = true;
-		Debug.Log ("Los Saw");
 
 		FireLOSTargetSeen ();
 	}
 
 	public void DoConePlayerSensing()
 	{
-		CharController player = WorldObjectReference.GetInstance().GetObject<WorldController>().player;
+		CharController player = null;
+		if (WorldObjectReference.GetInstance ().GetObject<WorldController> ()) {
+			player = WorldObjectReference.GetInstance ().GetObject<WorldController> ().player;
+
+			if (player == null)
+				return;
+		} else {
+			return;
+		}
 
 		float characterDistance = (player.transform.position - guard.gameObject.transform.position).magnitude;
 
@@ -177,11 +181,8 @@ public class LOS : MonoBehaviour {
 		if(collision.gameObject.GetComponent<CharController>() != null)
 		{
 			seen = false;
-			Debug.Log ("Los Lost");
 			FireLOSTargetLost ();
 		}
-
-
 	}
 
 

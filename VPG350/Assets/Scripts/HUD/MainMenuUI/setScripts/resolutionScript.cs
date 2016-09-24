@@ -7,21 +7,42 @@ public class resolutionScript : MonoBehaviour {
 	public M_UIComponents mainComponents;
 	public M_UIController MainController;
 
+	public PauseMenuUIComponents pauseMenuComponents;
+	public InGameUIController inGameUIController;
+
 	// Use this for initialization
 	void Start () {
-		
-		//1920x1080
-		mainComponents.b1080.onClick.AddListener (to1080);
-		//1366x768
-		mainComponents.b6x768.onClick.AddListener (to6x768);
-		//1280x1024
-		mainComponents.b1024.onClick.AddListener (to1024);
-		//1280x800
-		mainComponents.b800.onClick.AddListener (to800);
-		//1024x768
-		mainComponents.b4x768.onClick.AddListener (to4x768);
-		//800x600
-		mainComponents.b600.onClick.AddListener (to600);
+
+		if (mainComponents != null) 
+		{
+			//1920x1080
+			mainComponents.b1080.onClick.AddListener (to1080);
+			//1366x768
+			mainComponents.b6x768.onClick.AddListener (to6x768);
+			//1280x1024
+			mainComponents.b1024.onClick.AddListener (to1024);
+			//1280x800
+			mainComponents.b800.onClick.AddListener (to800);
+			//1024x768
+			mainComponents.b4x768.onClick.AddListener (to4x768);
+			//800x600
+			mainComponents.b600.onClick.AddListener (to600);
+		}
+		else
+		{
+			//1920x1080
+			pauseMenuComponents.b1080.onClick.AddListener (to1080);
+			//1366x768
+			pauseMenuComponents.b6x768.onClick.AddListener (to6x768);
+			//1280x1024
+			pauseMenuComponents.b1024.onClick.AddListener (to1024);
+			//1280x800
+			pauseMenuComponents.b800.onClick.AddListener (to800);
+			//1024x768
+			pauseMenuComponents.b4x768.onClick.AddListener (to4x768);
+			//800x600
+			pauseMenuComponents.b600.onClick.AddListener (to600);
+		}
 	}
 
 	public void to1080()//1920x1080

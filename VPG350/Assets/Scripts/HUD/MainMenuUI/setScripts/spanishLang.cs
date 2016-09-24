@@ -7,6 +7,9 @@ public class spanishLang : MonoBehaviour {
 	public M_UIComponents mainComponents;
 	public M_UIController MainController;
 
+	public PauseMenuUIComponents pauseMenuComponents;
+	public InGameUIController inGameUIController;
+
 	//text on the main menu. NewGame, Online, Settings, Tutorial, Quit
 	public Text nuevoJuegoText, enLineaText, opcionesText, tutorialesText, tutorialInsideText, tutorialTextControls, cerrarText;
 	//text on the online. Connect, Host
@@ -16,7 +19,14 @@ public class spanishLang : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		mainComponents.Spanish.onClick.AddListener(spanishData);
+		if (mainComponents != null) 
+		{
+			mainComponents.Spanish.onClick.AddListener (spanishData);
+		}
+		else
+		{
+			pauseMenuComponents.Spanish.onClick.AddListener (spanishData);
+		}
 	}
 	
 	public void spanishData()

@@ -30,6 +30,8 @@ public class M_UIController : MonoBehaviour {
     void Start()
     {
         changeEnglish.englishData();
+		Cursor.lockState = CursorLockMode.None;
+		Cursor.visible = true;
     }
 
     //starts the game

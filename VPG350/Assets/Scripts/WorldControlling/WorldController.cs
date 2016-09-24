@@ -181,6 +181,59 @@ public class WorldController : MonoBehaviour {
         }
     }
 
+	void DoStruggleCheck()
+	{
+		if (player.animState != CharController.AnimState.struggle) 
+		{
+
+			foreach(ExamplePatrolAI guard in Guards)
+			{
+				if ((player.transform.position - guard.transform.position).magnitude < 1) 
+				{
+					if (guard.state != ExamplePatrolAI.GaurdState.struggling && guard.state != ExamplePatrolAI.GaurdState.staggered) 
+					{
+						guard.state = ExamplePatrolAI.GaurdState.struggling;
+						player.SetAnimState (CharController.AnimState.struggle);
+						player.ActivateQTE ();
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	public void QTEFinished(bool playerWon)
+	{
+
+		if (!playerWon) 
+		{
+			UnityEngine.SceneManagement.SceneManager.LoadScene (0);
+			return;
+		}
+
+		foreach(ExamplePatrolAI guard in Guards)
+		{
+			if (guard.state == ExamplePatrolAI.GaurdState.struggling) 
+			{
+				if (playerWon) 
+				{
+					guard.SetStaggered (true);
+				} 
+				else 
+				{
+					guard.SetStaggered (false);
+				}
+			}
+		}
+	}
+
+	public void CheckFinishedMaze()
+	{
+		if ((player.transform.position - Exit.transform.position).magnitude <= 1) {
+			UnityEngine.SceneManagement.SceneManager.LoadScene (0);
+		}
+	}
+
     void Update()
     {
 		if (!CalledMazeGeneration && MazeHolder != null)
@@ -192,6 +245,11 @@ public class WorldController : MonoBehaviour {
             MazeGenerator.GenerateMaze(new Point(MazeSizeX, MazeSizeY), randomizeEntranceAndExit, MazeFinished);
             CalledMazeGeneration = true;
         }
+		else
+		{
+			DoStruggleCheck ();
+			CheckFinishedMaze ();
+		}
     }
 
 	void OnApplicationQuit(){

@@ -107,6 +107,8 @@ public class CharController : MonoBehaviour {
 	public Rigidbody rb;
 	public Animator animator;
 
+	public int breakAwayFinished = 18;
+
     // State Event
     public static event StateChanged Event_StateChanged;
 
@@ -158,20 +160,23 @@ public class CharController : MonoBehaviour {
         }
     }
 
-    void SetAnimState(AnimState newAnimState) {
+    public void SetAnimState(AnimState newAnimState) {
         animState = newAnimState;
 		if(animator != null){
         	animator.SetInteger("AnimState", (int)animState);
 		}
     }
     
+	public void ActivateQTE()
+	{
+		QTEActive = true;
+
+		QTEInit = true;
+	}
 
     void Control() {
 
 		if (QTEActive == true ) {
-			if (QTEWin == true) {
-				QTEActive = false;
-			}
 
 			if (QTEInit == true) {
 				animState = AnimState.struggle;
@@ -182,7 +187,11 @@ public class CharController : MonoBehaviour {
 				QTEInit = false;
 				QTEWin = false;
 			}
-				
+
+			if (QTEWin == true) {
+				QTEActive = false;
+			}
+
 			QTEEvent ();
 
 		} else {
@@ -294,8 +303,6 @@ public class CharController : MonoBehaviour {
 		    }
 		}
 
-
-
 	private void RotateView()
 	{
 		//avoids the mouse looking if the game is effectively paused
@@ -334,17 +341,23 @@ public class CharController : MonoBehaviour {
 				LeftPressed = false;
 			}
 
-			if (BreakawayNum >= 18) {
+			if (BreakawayNum >= breakAwayFinished) {
 				QTEWin = true;
                 SetAnimState(AnimState.idle);
                 GuardState = AnimState.struggleLose;
+
+				QTEActive = false;
+				WorldObjectReference.GetInstance().GetObject<WorldController>().QTEFinished(true);
+				QTETimerNum = 0;
 			}
 		} else {
 			QTEActive = false;
             SetAnimState(AnimState.struggleLose);
-           
 			GuardState = AnimState.idle;
 
+			QTEActive = false;
+			QTETimerNum = 0;
+			WorldObjectReference.GetInstance().GetObject<WorldController>().QTEFinished(false);
 		}
 		Debug.Log ("Left " + LeftPressed + " Right " + RightPressed + " Breakaway " + BreakawayNum + " Timer " + QTETimerNum + " Win/Lost " + QTEWin);
 	}
@@ -352,13 +365,24 @@ public class CharController : MonoBehaviour {
 	public void lockPlayerControls()
 	{
 		canMove = false;
-		mouseLook.SetCursorLock(false);
+		if (useMouseLook) 
+		{
+			mouseLook.SetCursorLock (false);
+		}
 	}
 
 	public void unlockPlayerControls()
 	{
 		canMove = true;
-		mouseLook.SetCursorLock(true);
+		if (useMouseLook) 
+		{
+			mouseLook.SetCursorLock (true);
+		}
+	}
+
+	public float getQTEPercent()
+	{
+		return BreakawayNum / breakAwayFinished;
 	}
 
     // Update is called once per frame
@@ -377,6 +401,11 @@ public class CharController : MonoBehaviour {
             // Apply gravity
             //moveDirection.y -= Gravity * Time.deltaTime;
         }
+
+		if (animState != AnimState.struggle) 
+		{
+
+		}
 
         OldAnimState = animState;
     }

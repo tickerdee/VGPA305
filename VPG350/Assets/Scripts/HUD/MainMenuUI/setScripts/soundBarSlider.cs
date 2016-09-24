@@ -7,6 +7,9 @@ public class soundBarSlider : MonoBehaviour {
     public M_UIComponents mainComponents;
     public M_UIController MainController;
 
+	public PauseMenuUIComponents pauseMenuComponents;
+	public InGameUIController inGameUIController;
+
 	AudioSource bgm_SoM;
 
     // Use this for initialization
@@ -16,7 +19,14 @@ public class soundBarSlider : MonoBehaviour {
 		bgm_SoM.Play();
 		changeVolume (0);
 
-		mainComponents.soundBar.onValueChanged.AddListener (changeVolume);
+		if (mainComponents != null) 
+		{
+			mainComponents.soundBar.onValueChanged.AddListener (changeVolume);
+		}
+		else
+		{
+			pauseMenuComponents.soundBar.onValueChanged.AddListener (changeVolume);
+		}
 	}
 
 	//changes the volume of the bgm

@@ -7,11 +7,22 @@ public class windowChange : MonoBehaviour {
 	public M_UIComponents mainComponents;
 	public M_UIController MainController;
 
+	public PauseMenuUIComponents pauseMenuComponents;
+	public InGameUIController inGameUIController;
+
 	public Toggle toggleButton;
 
 	// Use this for initialization
 	void Start () {
-		mainComponents.windowMode.onValueChanged.AddListener (toggleW);
+
+		if (mainComponents != null) 
+		{
+			mainComponents.windowMode.onValueChanged.AddListener (toggleW);
+		}
+		else
+		{
+			pauseMenuComponents.windowMode.onValueChanged.AddListener (toggleW);
+		}
 		toggleButton.isOn = true;
 	}
 

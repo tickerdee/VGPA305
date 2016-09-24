@@ -3,7 +3,7 @@ using System.Collections;
 
 public class ExamplePatrolAI : MonoBehaviour {
 	
-	enum GaurdState{
+	public enum GaurdState{
 		NONE,
 		patroling,
 		chasing,
@@ -16,7 +16,8 @@ public class ExamplePatrolAI : MonoBehaviour {
 	Vector3 PatrolTarget;
 	bool patrolTargetIsValid;
 	public bool showPatrolTarget = false;
-	GaurdState state, oldState;
+	public GaurdState state;
+	GaurdState oldState;
 
 	//Possibly a better idea. We inherit from NavMeshAgent?
 	NavMeshAgent navAgent;
@@ -27,7 +28,12 @@ public class ExamplePatrolAI : MonoBehaviour {
 
 	public float distanceFromNode = 0.95f;
 
+	public float staggeredTime = 3.5f, staggeredTimer;
+
 	public LOS myLOS;
+	public GameObject guardBody, statusSphere;
+
+	public Material staggeredMat, nonStaggeredMat;
 
 	// Use this for initialization
 	void Start () {
@@ -50,12 +56,18 @@ public class ExamplePatrolAI : MonoBehaviour {
 
 	public void LOSTargetSeen()
 	{
-		state = GaurdState.chasing;
+		if (state != GaurdState.struggling && state != GaurdState.staggered) 
+		{
+			state = GaurdState.chasing;
+		}
 	}
 
 	public void LOSTargetLost()
 	{
-		state = GaurdState.patroling;
+		if (state != GaurdState.struggling && state != GaurdState.staggered) 
+		{
+			state = GaurdState.patroling;
+		}
 	}
 
 	public void StartGuard(){
@@ -143,22 +155,61 @@ public class ExamplePatrolAI : MonoBehaviour {
 					}
 						
 				}
+
+				statusSphere.SetActive (false);
+				statusSphere.GetComponent<Renderer> ().material = nonStaggeredMat;
+				guardBody.GetComponent<Renderer> ().material = nonStaggeredMat;
 				break;
 
 			case GaurdState.chasing:
 				animState = CharController.AnimState.run;
 				myLOS.ChasePlayer ();
 				Debug.Log ("Chasing");
+				statusSphere.SetActive (false);
+				statusSphere.GetComponent<Renderer> ().material = nonStaggeredMat;
+				guardBody.GetComponent<Renderer> ().material = nonStaggeredMat;
 				break;
 			case GaurdState.struggling:
 				animState = CharController.AnimState.struggle;
+							
+				myLOS.rb.velocity = Vector3.zero;
+						
+				statusSphere.SetActive (true);
+				statusSphere.GetComponent<Renderer> ().material = nonStaggeredMat;
+
 				break;
 			case GaurdState.staggered:
 				animState = CharController.AnimState.struggleLose;
+						
+				myLOS.rb.velocity = Vector3.zero;
+					
+				guardBody.GetComponent<Renderer> ().material = staggeredMat;
+				
+				statusSphere.SetActive (true);
+				statusSphere.GetComponent<Renderer> ().material = staggeredMat;
+
+				staggeredTimer -= Time.deltaTime;
+				if (staggeredTimer <= 0) 
+				{
+					state = GaurdState.patroling;
+					CleanUpPath ();
+				}
+					
 				break;
 		}
 
 		oldState = state;
+	}
+
+	public void SetStaggered(bool staggered)
+	{
+		if (staggered) {
+			staggeredTimer = staggeredTime;
+			state = GaurdState.staggered;
+		} else {
+			state = GaurdState.patroling;
+			CleanUpPath ();
+		}
 	}
 
 	void DrawPath()
