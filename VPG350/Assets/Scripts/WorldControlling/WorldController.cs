@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class WorldController : MonoBehaviour {
 
@@ -25,7 +26,8 @@ public class WorldController : MonoBehaviour {
 	public CharController player;
 
 	public GameObject GuardPrefab;
-	public GameObject Guard;
+	public IList<ExamplePatrolAI> Guards;
+	public int numberOfGuards = 1;
 
 	// Use this for initialization
 	void Start () {
@@ -41,6 +43,8 @@ public class WorldController : MonoBehaviour {
 		if(MazeHolder == null){
 			Debug.Log("World Controller has no reference to a MazeHolder. No maze Generated");
 		}
+
+		Guards = new List<ExamplePatrolAI>();
 
 		//If we don't have a player spawn one
 		if(PlayerPrefab != null && player == null){
@@ -113,21 +117,12 @@ public class WorldController : MonoBehaviour {
 		}
 
 		if(Exit != null){
-			Vector3 guardSpawnLoc = Exit.transform.position + new Vector3(0,3.0f,0);
+			//Do things that rely on exit node
+		}
 
-			//GameObject tempGaurd = (GameObject)Instantiate(GuardPrefab, new Vector3 (0, 100, 0), Quaternion.identity);
-
-			if (Guard != null) {
-				GameObject tempGuard = Guard;
-
-				if (tempGuard != null) {
-					tempGuard.transform.position = guardSpawnLoc;
-					Guard = tempGuard;
-					Guard.GetComponent<ExamplePatrolAI> ().StartGaurd ();
-				}
-			} else {
-				Debug.Log ("WorldController no Gaurd found");
-			}
+		for(int i=0; i < numberOfGuards; ++i)
+		{
+			SpawnGaurd(Entrance.transform.position);
 		}
 
 		if(worldEvents != null)
@@ -156,6 +151,27 @@ public class WorldController : MonoBehaviour {
     {
         return new Vector3(MazePosition.x * 3, 0, MazePosition.y * 3);
     }
+
+	public void SpawnGaurd(Vector3 playerSpawnLocation)
+	{
+		Vector3 guardSpawnLoc = nodeMap.GetRandomNodeAtLeastDistanceAway(playerSpawnLocation, 10) + new Vector3(0,3.0f,0);
+
+		GameObject tempGuard = null;
+
+		if(GuardPrefab != null)
+		{
+			tempGuard = (GameObject)Instantiate(GuardPrefab, new Vector3 (0, 100, 0), Quaternion.identity);
+
+			if (tempGuard != null) {
+				tempGuard.transform.position = guardSpawnLoc;
+				ExamplePatrolAI temp = tempGuard.GetComponent<ExamplePatrolAI>();
+				Guards.Add(temp);
+				tempGuard.GetComponent<ExamplePatrolAI> ().StartGuard ();
+			}
+		} else {
+			Debug.Log ("WorldController no Gaurd found");
+		}
+	}
 
     void DeleteAllChildren(Transform transform)
     {

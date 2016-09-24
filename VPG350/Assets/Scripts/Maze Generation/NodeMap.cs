@@ -56,4 +56,26 @@ public class NodeMap{
 			return Vector3.zero;
 		}
 	}
+
+	public Vector3 GetRandomNodeAtLeastDistanceAway(Vector3 relativeLocation, float distanceAway)
+	{
+		float recentDistance = 0.0f;
+		Vector3 outLocation = Vector3.zero;
+
+		if(NodeList.Count > 0){
+
+			int searchCount = 0;
+			while(recentDistance < distanceAway || searchCount < 100){
+				
+				outLocation = ((Node)NodeList[Random.Range(0, NodeList.Count - 1)]).WorldLoc;
+				recentDistance = (relativeLocation - outLocation).magnitude;
+				searchCount++;
+			}
+
+			return outLocation;
+		}else{
+			Debug.Log("Node List is empty");
+			return Vector3.zero;
+		}
+	}
 }
